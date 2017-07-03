@@ -42,7 +42,7 @@ function info($PHP_AUTH_USER1){
 	}
 }
 
-if (isset($_GET['test'])) echo info($_GET['test'];
+if (isset($_GET['test'])) echo info($_GET['test']);
 
 
 ?>
