@@ -64,23 +64,25 @@
 				<li class="dropdown">
 						<?php
 						$jum = 0;
-						$notif_user = "";
 						$notif_booking = "";
-						$data = array("ql" => "select * where aproved = 'pending'");
-							//reading data ruangan
-						$pics = $client->get_collection('picruangans',$data);
-						while ($pics->has_next_entity()) {
-							$pic = $pics->get_next_entity();
-							$notif_user .= '
-								<li>
-									<a href="?page=user-management">
-										<span class="glyphicon glyphicon-user" style="color: grey;"></span>
-										&nbsp;'.$pic->get('name').' meminta permintaan PIC ruangan
-									</a>
-								</li>
-								<li role="separator" class="divider"></li>
-							';
-							$jum++;
+						if ($_SESSION['role'] == "admin") {
+							$notif_user = "";
+							$data = array("ql" => "select * where aproved = 'pending'");
+								//reading data ruangan
+							$pics = $client->get_collection('picruangans',$data);
+							while ($pics->has_next_entity()) {
+								$pic = $pics->get_next_entity();
+								$notif_user .= '
+									<li>
+										<a href="?page=user-management">
+											<span class="glyphicon glyphicon-user" style="color: grey;"></span>
+											&nbsp;'.$pic->get('name').' meminta permintaan PIC ruangan
+										</a>
+									</li>
+									<li role="separator" class="divider"></li>
+								';
+								$jum++;
+							}
 						}
 						$data = array("ql" => "select * where aproved = 'pending'");
 							//reading data ruangan
@@ -106,7 +108,7 @@
 					<ul class="dropdown-menu">
 						<?php
 							echo $notif_booking;
-							echo $notif_user;
+							echo $_SESSION['role'] == "admin"?$notif_user:'';
 						?>
 					</ul>
 				</li>
@@ -121,23 +123,30 @@
 			</ul>
 		</div>
 	</nav>
-	<div class="row" style="background-image:url('images/bg-putih.png');height:110%;margin-bottom:100px;">
+	<div class="row" style="background-image:url('images/bg-putih.png');height: 135%;margin-bottom:100px;">
 		<div class="col-sm-2 col-md-2 sidebar-offcanvas" style=" background-color: rgba(255, 255, 255, 0.5); height: 100%;" id="sidebar-wrapper" role="navigation">
 			<ul class="nav nav-sidebar list-sidebar-menu">
 				<?php
 					if($_SESSION['role'] == "admin"){
 						$page = "room-request-staff";
 				?>
-						<li><a style="text-align: right; font-family: inherit;" href="?page=history-admin">HISTORY ADMIN</a></li>
+						<li><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
 				<?php
-					}else if($_SESSION['role'] == "staff" OR $_SESSION['role'] == "user"){
+					}else if($_SESSION['role'] == "staff"){
 						$page = "dashboard";
 				?>
 						<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="?page=history">HISTORY STAFF/USER</a></li>
+						<li><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
+						<li><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
+						<li><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
+				<?php
+					}else if ($_SESSION['role'] == "user") {
+				?>
+					<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
+					<li><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
 				<?php
 					}
 				?>

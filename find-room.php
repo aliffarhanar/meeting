@@ -132,8 +132,8 @@ function filter_sort(obj){
 				  <div class="col-sm-3">
 					<div class="border-box panel panel-info">
 					  <div class="panel-body text-center" style="background: rgba(255, 255, 255, 0.5);">
-						<img src="<?php echo $foto;?>" class="img-responsive pull-center" style="width:150px;height:150px;" alt="Image">
-						<?php echo $name;?><br>
+						<img src="<?php echo $foto;?>" class="img-responsive pull-center" style="width: 100%;height:150px;" alt="Image">
+						<br><?php echo $name;?><br>
 						<span class="glyphicon glyphicon-star"></span>
 						<span class="glyphicon glyphicon-star"></span>
 						<span class="glyphicon glyphicon-star"></span>
@@ -141,7 +141,7 @@ function filter_sort(obj){
 						<span class="glyphicon glyphicon-star-empty"></span>
 						<br><span class="glyphicons glyphicons-group" style="color: black;"><?php echo $capacity;?> person</span>
 						<br><span class="glyphicons glyphicons" style="color: black;"><?php echo $facility;?></span>
-						<br><a class="btn btn-primary pull-center detail" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|".$foto; ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
+						<br><br><a class="btn btn-primary pull-center detail" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|".$foto; ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
 					  </div>
 					</div>
 				  </div>

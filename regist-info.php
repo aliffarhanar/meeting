@@ -4,31 +4,33 @@ include_once "inc/config.php";
 	if(isset($_GET['id'])){
 		$data = array("ql" => "select * where created=".$_GET['id']);
 		//reading data ruangan
-		$pics = $client->get_collection('picruangans',$data);
+		$pics = $client->get_collection('penggunas',$data);
 		$pic = $pics->get_next_entity();
 		$room = $pic->get('pic');
 		
 	if(isset($_GET['process_edit'])){
-		$id = $_POST['id'];
+		$id = $_POST['username'];
 		$password = $_POST['password'];
 		$name = $_POST['name'];
 		$phone = $_POST['phone'];
 		$email = $_POST['email'];
+		$role = $pic->get('role')=='user'?$_POST['role']:'staff';
 		$pic1 = array();
-		for($i=0;$i<count($_POST['room']);$i++){
+		if (isset($_POST['room'])) for($i=0;$i<count($_POST['room']);$i++){
 			if(isset($_POST['room'][$i])){
 				array_push($pic1,$_POST['room'][$i]);
 			}
 		}
 		$body = array(
 			"password" => $password,
-			"id" => $id,
+			"username" => $id,
 			"phone" => $phone,
+			"role" => $role,
 			"email" => $email,
 			"pic" => $pic1,
 			"aproved" => "approved"
 		);
-		$endpoint = 'picruangans/'.$pic->get('uuid');
+		$endpoint = 'penggunas/'.$pic->get('uuid');
 		$query_string = array();
 		$result = $client->put($endpoint, $query_string, $body);
 		if ($result->get_error()){
@@ -65,9 +67,9 @@ include_once "inc/config.php";
 <div class="modal-body">
 	<form class="form-horizontal">
 		<div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">ID <span class="pull-right">:</span></label>
+			<label class="col-sm-2 col-md-offset-1 frm-label">Username <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-				<input type="text" name="id" class="form-control" placeholder="ID" value="<?=$pic->get('id')?>">
+				<input type="text" name="username" class="form-control" placeholder="Username" value="<?=$pic->get('username')?>">
 			</div>
 		</div>
 		<div class="form-group">
@@ -94,12 +96,13 @@ include_once "inc/config.php";
 				<input type="email" name="email" class="form-control" placeholder="Email Active" value="<?=$pic->get('email')?>">
 			</div>
 		</div>
+		<?php if ($pic->get('role') == 'staff') { ?>
 		<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">PIC of <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
 				<?php 
 					$query = array("ql" => "select * order by name");
-					$ruangans = $client->get_collection('ruangans',$query);
+					$ruangans = $client->get_collection('ruangans', $query);
 					$i = 0;
 					while ($ruangans->has_next_entity()) {
 						$ruangan = $ruangans->get_next_entity();
@@ -129,7 +132,19 @@ include_once "inc/config.php";
 					#			</label>
 					#		</div>";
 					#}
+					
+		} else {
 				?>
+			<div class="form-group">
+			<label class="col-sm-2 col-md-offset-1 frm-label">Role<span class="pull-right">:</span></label>
+			<div class="col-sm-8">
+			<label>
+			  <select name='role'class="form-control">
+				<option value="user">User</option>
+				<option value="staff">Staff</option>
+			  </select>
+			</label>
+		<?php } ?>
 			</div>
 		</div>
 </div>

@@ -27,12 +27,12 @@
 	</div>
 	<div class="col-md-12" style="padding-top: 2%; overflow-y: scroll; height: 200px;">
 		<?php
-			if(isset($_GET['aprove'])){
-				$endpoint = 'picruangans/'.$_GET['aprove'];
+			if(isset($_GET['approve'])){
+				$endpoint = 'penggunas/'.$_GET['approve'];
 				$query_string = array();
 				
 				$body = array(
-					"aproved" => "approved"
+					"approved" => "approved"
 				);
 				
 				$result = $client->put($endpoint, $query_string, $body);
@@ -42,7 +42,7 @@
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
 							<div class='alert alert-danger' style='text-align:center;'>
-								<h4>Gagal Melakukan Approval,".$_GET['aprove']." belum di approve.</h4>
+								<h4>Gagal Melakukan Approval,".$_GET['approved']." belum di approve.</h4>
 							</div>
 						</div>
 					</div>
@@ -52,7 +52,7 @@
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
 							<div class='alert alert-success' style='text-align:center;'>
-								<h4>".$_GET['aprove']." sudah berhasil di approve.</h4>
+								<h4>".$_GET['approve']." sudah berhasil di approve.</h4>
 							</div>
 						</div>
 					</div>
@@ -61,7 +61,7 @@
 				}
 			}
 			if(isset($_GET['reject'])){
-				$endpoint = 'picruangans/'.$_GET['reject'];
+				$endpoint = 'penggunas/'.$_GET['reject'];
 				$query_string = array();
 							
 				$result = $client->delete($endpoint, $query_string);
@@ -105,13 +105,15 @@
 				<?php
 				$no=1;
 				if(isset($_GET['cari'])){
-					$data = array("ql" => "select * where aproved = 'pending' AND name contains ='".$_GET['cari']."'");
+					$data = array(
+							"ql" => "select * where approved = 'pending' AND role = 'staff'
+							AND name contains ='".$_GET['cari']."'");
 					//reading data ruangan
-					$pics = $client->get_collection('picruangans',$data);
+					$pics = $client->get_collection('penggunas',$data);
 				}else{
-					$data = array("ql" => "select * where aproved = 'pending'");
+					$data = array("ql" => "select * where approved = 'pending' AND role = 'staff'");
 					//reading data ruangan
-					$pics = $client->get_collection('picruangans',$data);
+					$pics = $client->get_collection('penggunas',$data);
 				}
 				if($pics->has_next_entity()){
 					
@@ -121,7 +123,7 @@
 					?>
 					<tr>
 						<td><?=$no?></td>
-						<td><?=$pic->get('id')?></td>
+						<td><?=$pic->get('username')?></td>
 						<td><?=$pic->get('name')?></td>
 						<td>
 							<?php
@@ -136,8 +138,9 @@
 							?>
 						</td>
 						<td>
+							<a href="#!" data-id="<?=$pic->get('created')?>" class="btn btn-sm btn-primary regist"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
 							<a href="?page=user-management&reject=<?=$pic->get('name')?>" class="btn btn-sm btn-danger" ><i class="fa fa-close" aria-hidden="true"></i></a>
-							<a href="?page=user-management&aprove=<?=$pic->get('name')?>"class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
+							<a href="?page=user-management&approve=<?=$pic->get('name')?>"class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
 						</td>
 					</tr>
 					<?php 
@@ -251,13 +254,15 @@
 					<?php
 					$no=1;
 					if(isset($_GET['cari1'])){
-						$data = array("ql" => "select * where aproved = 'approved' AND name contains ='".$_GET['cari1']."'");
+						$data = array("ql" => 
+									  "select * where approved = 'approved'
+									  AND name contains ='".$_GET['cari1']."'");
 						//reading data ruangan
-						$pics = $client->get_collection('picruangans',$data);
+						$pics = $client->get_collection('penggunas',$data);
 					}else{
-						$data = array("ql" => "select * where aproved = 'approved'");
+						$data = array("ql" => "select * where approved = 'approved'");
 						//reading data ruangan
-						$pics = $client->get_collection('picruangans',$data);
+						$pics = $client->get_collection('penggunas',$data);
 					}
 					while ($pics->has_next_entity()) {
 						$pic = $pics->get_next_entity();
@@ -265,11 +270,11 @@
 					?>
 					<tr>
 						<td><?=$no?></td>
-						<td><?=$pic->get('id')?></td>
+						<td><?=$pic->get('username')?></td>
 						<td><?=$pic->get('name')?></td>
-						<td>
+						<td><?=$pic->get('role')?>
 							<?php
-								foreach($room as $rp){
+								if ($room) foreach($room as $rp){
 								$data = array('ql' => "select * where uuid=".$rp);		
 								//reading data ruangan
 								$ruangans = $client->get_collection('ruangans',$data);

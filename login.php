@@ -4,34 +4,6 @@
 	if(isset($_SESSION['login_user'])){
 		header("location:index.php");
 	}
-	if(isset($_POST['login'])){
-		if($_POST['username'] == "admin" AND $_POST['password'] == "admin"){
-			$_SESSION['login_user'] = "login";
-			$_SESSION['name'] = "Admin";
-			$_SESSION['role'] = "admin";
-			$_SESSION['id'] = "admin";
-			$_SESSION['password'] = "admin";
-			$_SESSION['phone'] = "admin";
-			$_SESSION['email'] = "admin";
-			header("location:index.php");			
-		}else{
-			$query = array("ql" => "select * where id='".$_POST['username']."' AND password ='".$_POST['password']."'");
-			$users = $client->get_collection('picruangans',$query);
-			if($users->has_next_entity()){
-				$user = $users->get_next_entity();
-				$_SESSION['login_user'] = "login";
-				$_SESSION['name'] = $user->get('name');
-				$_SESSION['role'] = $user->get('role');	
-				$_SESSION['id'] =$user->get('id');	
-				$_SESSION['password'] = $user->get('password');	
-				$_SESSION['phone'] = $user->get('phone');	
-				$_SESSION['email'] = $user->get('email');	
-				header("location:index.php");			
-			}else{
-				echo "<script>alert('Username atau password salah')</script>";
-			}
-		}
-	}
 ?>
 <html>
 <head>
@@ -49,36 +21,86 @@
 			<img src="images/logo-title.png" width="200px">
 		</div>
 		<?php
+			if(isset($_POST['login'])){
+				if($_POST['username'] == "admin" AND $_POST['password'] == "admin"){
+					$_SESSION['login_user'] = "login";
+					$_SESSION['name'] = "Admin";
+					$_SESSION['role'] = "admin";
+					$_SESSION['id'] = "admin";
+					$_SESSION['password'] = "admin";
+					$_SESSION['phone'] = "admin";
+					$_SESSION['email'] = "admin";
+					header("location:index.php");			
+				}else{
+					$query = array("ql" => "select * where username='".$_POST['username']."' 
+											AND password ='".$_POST['password']."'
+											");
+					$users = $client->get_collection('penggunas',$query);
+					if($users->has_next_entity()){
+						$user = $users->get_next_entity();
+						if ($user->get('role')!='approve') {
+							echo "<br>
+							<div class='row'>
+								<div class='col-md-8 col-md-offset-2'>
+									<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
+										<h4>Gagal Login : Akun anda belum aktif.</h4>
+									</div>
+								</div>
+							</div>";
+						} else {
+							$_SESSION['login_user'] = "login";
+							$_SESSION['name'] = $user->get('name');
+							$_SESSION['role'] = $user->get('role');
+							$_SESSION['username'] =$user->get('username');	
+							$_SESSION['password'] = $user->get('password');	
+							$_SESSION['phone'] = $user->get('phone');	
+							$_SESSION['email'] = $user->get('email');	
+							header("location:index.php");					
+						}
+					}else{
+						echo "<br>
+							<div class='row'>
+								<div class='col-md-8 col-md-offset-2'>
+									<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
+										<h4>Gagal Login : Username atau Password salah</h4>
+									</div>
+								</div>
+							</div>";
+					}
+				}
+			}
+			
 			if(isset($_POST['register'])){
-				$id = $_POST['id'];
+				$id = $_POST['username'];
 				$password = $_POST['password'];
 				$name = $_POST['name'];
 				$phone = $_POST['phone'];
 				$email = $_POST['email'];
 				$pic=array();
-				for($i=0;$i<count($_POST['room']);$i++){
+				if (isset($_POST['room'])) for($i=0;$i<count($_POST['room']);$i++){
 					if(isset($_POST['room'][$i])){
 						array_push($pic,$_POST['room'][$i]);
 					}
 				}
 				$body = array(
-					"id" => $id,
+					"username" => $id,
 					"password" => $password,
 					"name" => $name,
 					"phone" => $phone,
 					"email" => $email,
 					"role" => "staff",
 					"pic" => $pic,
-					"aproved" => "pending"
+					"approved" => "pending"
 				);
-				$endpoint = 'picruangan';
+				$endpoint = 'penggunas';
 				$query_string = array();
 				$result = $client->post($endpoint, $query_string, $body);
 				if ($result->get_error()){
 					echo "
+					<br>
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
-							<div class='alert alert-danger' style='text-align:center;'>
+							<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
 								<h4>Gagal Melakukan Pendaftaran, silahkan lakukan proses Pendaftaran ulang.</h4>
 							</div>
 						</div>
@@ -86,6 +108,7 @@
 					";
 				} else {
 					echo "
+					<br>
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
 							<div class='alert alert-success' style='text-align:center;'>
@@ -99,15 +122,15 @@
 		?>
 		<form class="form-horizontal frm-body" action="" method="post">
 		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">ID</label>
+			<label class="col-sm-2 col-md-offset-1 frm-label">Username</label>
 			<div class="col-sm-8">
-			  <input type="text" name="username" class="form-control" placeholder="ID">
+			  <input type="text" name="username" required class="form-control" placeholder="Username">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Password</label>
 			<div class="col-sm-8">
-			  <input type="password" name="password" class="form-control" placeholder="Password">
+			  <input type="password" name="password" required class="form-control" placeholder="Password">
 			</div>
 		  </div>
 		  <div class="form-group">
@@ -144,33 +167,33 @@
       <div class="modal-body">
 		<form class="form-horizontal" action="" method="post">
 		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">ID <span class="pull-right">:</span></label>
+			<label class="col-sm-2 col-md-offset-1 frm-label">Username <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="text" name="id" class="form-control" placeholder="ID">
+			  <input type="text" name="username" required class="form-control" placeholder="Username">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Password <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="password" name="password" class="form-control" placeholder="Password">
+			  <input type="password" name="password" required class="form-control" placeholder="Password">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Name <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="text" name="name" class="form-control" placeholder="Full Name">
+			  <input type="text" name="name" required class="form-control" placeholder="Full Name">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Phone <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="text" name="phone" class="form-control" placeholder="Active Phone Number">
+			  <input type="text" name="phone" required class="form-control" placeholder="Active Phone Number">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Email <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="email" name="email" class="form-control" placeholder="Email Active">
+			  <input type="email" name="email" required class="form-control" placeholder="Email Active">
 			</div>
 		  </div>
 		  <div class="form-group">
