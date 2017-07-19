@@ -156,7 +156,7 @@
 				<tbody>
 				<?php
 					$no=1;
-						$data = array('ql' => "select * where aproved='approved'");		
+					$data = array('ql' => "select * where aproved='approved'");		
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
@@ -273,9 +273,7 @@
 	</div>
 </div>
 <script>
-
 	$(document).ready(function() {
-		
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev',
@@ -285,9 +283,35 @@
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
-			
+			events: [
+			<?php
+					$no=1;
+					$data = array('ql' => "select * where aproved='approved'");		
+					$bookings = $client->get_collection('bookings',$data);
+					if($bookings->has_next_entity()){
+						//do something with the data
+						while ($bookings->has_next_entity()) {
+							$booking = $bookings->get_next_entity();
+							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
+							//reading data ruangan
+							$ruangans = $client->get_collection('ruangans',$data);
+							//do something with the data
+							$ruangan = $ruangans->get_next_entity();
+							$start = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('start')));
+							$end = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('end')));
+					?>
+						{
+							title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
+							start: '<?=$start?>',
+							end: '<?=$end?>'
+						},
+						<?php 
+							$no++; 
+						}
+					}
+				?>
+			],
 		});
 		
 	});
-
 </script>

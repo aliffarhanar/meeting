@@ -38,12 +38,12 @@
 					$users = $client->get_collection('penggunas',$query);
 					if($users->has_next_entity()){
 						$user = $users->get_next_entity();
-						if ($user->get('role')!='approve') {
+						if ($user->get('approved')!='approved') {
 							echo "<br>
 							<div class='row'>
 								<div class='col-md-8 col-md-offset-2'>
 									<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
-										<h4>Gagal Login : Akun anda belum aktif.</h4>
+										<h4>Gagal Login : Akun anda belum aktif.</h4> 
 									</div>
 								</div>
 							</div>";
@@ -55,6 +55,7 @@
 							$_SESSION['password'] = $user->get('password');	
 							$_SESSION['phone'] = $user->get('phone');	
 							$_SESSION['email'] = $user->get('email');	
+							$_SESSION['pic'] = $user->get('pic');	
 							header("location:index.php");					
 						}
 					}else{
@@ -210,7 +211,7 @@
 					echo"
 					<div class='checkbox col-md-6'>
 						<label>
-						  <input type='checkbox' name='room[$i]' value='$uuid'> $name
+						  <input type='checkbox' name='room[$i]' value='$name'> $name
 						</label>
 					</div>
 					";

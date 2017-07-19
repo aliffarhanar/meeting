@@ -44,7 +44,8 @@ function filter_sort(obj){
 	});
 }
 	$(function() {
-        $(".detail").click(function(){
+        $(".modal-detail").click(function(){
+          var pic = $(this).attr('pic');
           var room = $(this).attr('room');
           var data = room.split("|");
           $(".modal .modal-title").html(data[0]);
@@ -52,12 +53,32 @@ function filter_sort(obj){
           $(".modal .modal-facility").html(data[2]);
           $(".modal .modal-location").html(data[3]);
           $(".modal .modal-foto").attr('src',data[4]);
+          $(".modal .modal-pic").html(pic);
           $(".modal .modal-book").attr('href',"?page=user-booking&room="+data[0]);
+          $(".modal .modal-edit").attr('room',room);
+          $(".modal .modal-edit").attr('pic',pic);
+        });
+        $(".modal-edit").click(function(){
+		  var pic = $(this).attr('pic');          
+          var room = $(this).attr('room');
+          var data = room.split("|");
+          $(".modal .modal-edit-title").html(data[0]);
+          $(".modal .modal-editroom").attr('value',data[0]);
+          $(".modal .modal-edit-capacity").attr('value',data[1]);
+          $(".modal .modal-edit-facility").html(data[2]);
+          $(".modal .modal-edit-location").attr('value',data[3]);
+          $(".modal .modal-edit-foto").attr('src',data[4]);
+          $(".modal .modal-edit-pic").html(pic);
         });
 	});	
 </script>
 <div class="col-md-12 row">
 	<div class="col-md-12" style="padding-top:2%;">
+		<div class="col-md-1">
+			<?php if($_SESSION['role'] == "admin"){ ?>
+				<a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-pic"><i class="fa fa-plus"></i> Tambah</a>
+			<?php } ?>
+		</div>
 		<div class="col-md-4">
 		<form action="" method="post">
 			<div class="input-group input-group-sm">
@@ -109,6 +130,40 @@ function filter_sort(obj){
 </div>
 <div class="col-md-12" style="padding-top:2%;" id="list_ruangan">
 	<?php
+		if(isset($_POST['editroom'])){
+			$body = array(
+				"capacity" => $_POST['capacity'],
+				"facility" => $_POST['facility'],
+				"address" => $_POST['location']
+			);
+			$endpoint = 'ruangans/'.$_POST['editroom'];
+			$query_string = array();
+			$result = $client->put($endpoint, $query_string, $body);
+			if ($result->get_error()){
+				echo "
+					<br>
+					<div class='row'>
+						<div class='col-md-8 col-md-offset-2'>
+							<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
+								<h4>Gagal Melakukan Perubahan Ruangan, silahkan ulangi lagi</h4>
+							</div>
+						</div>
+					</div>
+					";
+			} else {
+				echo "
+				<br>
+				<div class='row'>
+					<div class='col-md-8 col-md-offset-2'>
+						<div class='alert alert-success' style='text-align:center;'>
+							<h4>Selamat, data ruangan sudah diubah.</h4>
+						</div>
+					</div>
+				</div>
+				";
+			}
+
+		}
 		if(isset($_POST['cari'])){
 			$data = array("ql" => "select * where name ='".$_POST['cari']."'");
 			//reading data ruangan
@@ -119,14 +174,35 @@ function filter_sort(obj){
 		}
 		//do something with the data
 		if($ruangans->has_next_entity()){
+			
+			$listpic =array();
+			$i=0;
+			$data_pic = array("ql" => "select * where role ='staff'");
+			$pics = $client->get_collection('penggunas',$data_pic);
+			//do something with the data
+			while($pics->has_next_entity()){								
+				$pic = $pics->get_next_entity();
+				$listpic[$i]["name"] = $pic->get('name');
+				$listpic[$i]["phone"] = $pic->get('phone');
+				$listpic[$i]["room"] = $pic->get('pic');
+				$i++;
+			}
+
 			while ($ruangans->has_next_entity()) {
+				$roompic = "<ul>";
 				$ruangan = $ruangans->get_next_entity();
 				$name = $ruangan->get('name');
 				$uuid = $ruangan->get('uuid');
 				$capacity = $ruangan->get('capacity');
 				$facility = $ruangan->get('facility');
 				$location = $ruangan->get('address');
-				$foto = $ruangan->get('foto');
+				$foto = $ruangan->get('foto');			
+				for($j=0;$j<$i;$j++){
+					if(in_array($name,$listpic[$j]["room"])){
+						$roompic .="<li>".$listpic[$j]["name"]."</li>";						
+					}
+				}
+				$roompic .="</ul>";
 			?>
 				  <!-- box find room -->
 				  <div class="col-sm-3">
@@ -141,7 +217,7 @@ function filter_sort(obj){
 						<span class="glyphicon glyphicon-star-empty"></span>
 						<br><span class="glyphicons glyphicons-group" style="color: black;"><?php echo $capacity;?> person</span>
 						<br><span class="glyphicons glyphicons" style="color: black;"><?php echo $facility;?></span>
-						<br><br><a class="btn btn-primary pull-center detail" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|".$foto; ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
+						<br><br><a class="btn btn-primary pull-center modal-detail" pic="<?php echo $roompic;?>" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|".$foto; ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
 					  </div>
 					</div>
 				  </div>
@@ -186,7 +262,7 @@ function filter_sort(obj){
             <tbody>
               <tr>
                 <th><span class="fa fa-users"></span>&nbsp;Capacity</th>
-                <td class="modal-capacity">50 Person</td>
+                <td class="modal-capacity"></td>
               </tr>
               <tr>
                 <th><img src="images/tools.png" alt="tool">&nbsp;Facility</th>
@@ -195,15 +271,9 @@ function filter_sort(obj){
               </tr>
               <tr>
                 <th><img src="images/person_gear.png" alt="person and gear">&nbsp;Person in Change</th>
-                <td>
-                  Admin 1 <br>
-                  &nbsp;+62891782993320 <br>
-                  &nbsp;admin@telkom.co.id <br> <br>
-                  Admin 2 <br>
-                  &nbsp;+62891782993320 <br>
-                  &nbsp;admin@telkom.co.id 
+                <td class="modal-pic">
                 </td>
-              </tr>
+              </tr>				
               <tr>
                 <th><span class="fa fa-map-marker"></span>&nbsp;Location</th>
                 <td class="modal-location">
@@ -216,13 +286,22 @@ function filter_sort(obj){
       </div>
       <div class="modal-footer">
         <div class="col-md-6">
-          <a href="#" type="button" class="btn btn-primary modal-book">book</a>
-          <a href="?page=room-request-staff" type="button" class="btn btn-primary modal-manage" >manage
-            <span class="badge" style="top: -10px; position: absolute; background-color: #C91F2C; color: white;">2</span>
-          </a>
-        </div>
-        <div class="col-md-6">
-          <button type="button" class="btn btn-primary" data-toggle="modal" onclick="closeFunction()" data-target="#room-edit">Edit</button>
+			<?php
+				if($_SESSION['role'] == "user"){
+					echo '
+						<a href="#" type="button" class="btn btn-primary modal-book">book</a>
+					';
+				}else if($_SESSION['role'] == "admin" OR $_SESSION['role'] == "staff"){
+					echo '
+					  <a href="?page=room-request-staff" type="button" class="btn btn-primary modal-manage" >manage
+						<span class="badge" style="top: -10px; position: absolute; background-color: #C91F2C; color: white;"></span>
+					  </a>
+					</div>
+					<div class="col-md-6">
+					  <button type="button" class="btn btn-primary modal-edit" data-toggle="modal" onclick="closeFunction()" pic="" room="roomid" data-target="#room-edit">Edit</button>
+					';
+				}
+			?>
         </div>
       </div>
     </div>
@@ -234,7 +313,7 @@ function filter_sort(obj){
     <div class="modal-content" style="background: rgba(255, 255, 255, 0.89);">
       <div class="modal-header" style="border-color: black;">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Auditorium</h4>
+        <h4 class="modal-edit-title">Auditorium</h4>
       </div>
       <div class="modal-body col-md-12">
         <div class="col-md-6">
@@ -243,29 +322,15 @@ function filter_sort(obj){
             <!-- Indicators -->
             <ol class="carousel-indicators">
               <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-              <li data-target="#myCarousel" data-slide-to="1"></li>
-              <li data-target="#myCarousel" data-slide-to="2"></li>
             </ol>
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
               <div class="item active">
-                <img src="http://www.sunandmoonhotel.com/uploads/images/Gallery/Meeting-Room-Board-Room-Gallery/meeting-room-g1.jpg" style="min-width: 100%; max-height: 311px;" alt="Room" class="img-responsive">
-              </div>
-              <div class="item">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Ow6h51zUzYd_O9bWUJWHlvm2dEwOOrEITcd9nwnfNI5ANEHj" style="min-width: 100%; max-height: 311px;" alt="Room" class="img-responsive">
+                <img src="http://www.sunandmoonhotel.com/uploads/images/Gallery/Meeting-Room-Board-Room-Gallery/meeting-room-g1.jpg" style="min-width: 100%; max-height: 311px;" alt="Room" class="img-responsive modal-foto">
               </div>
             </div>
 
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right"></span>
-              <span class="sr-only">Next</span>
-            </a>
           </div><br>
           <!-- end section carousel -->
           <div id="kalendar" style="background-color: white;"></div>
@@ -274,39 +339,29 @@ function filter_sort(obj){
           <style type="text/css" media="screen">
 
           </style>
-          <form action="" method="" accept-charset="utf-8">
+          <form action="" id="form-id" method="post" accept-charset="utf-8">
             <table class="table table-bordered table-room-edit">
+			<input type="hidden" name="editroom" class="modal-editroom" value="" >
               <tbody>
                 <tr>
                   <th><span class="fa fa-users"></span>&nbsp;Capacity</th>
-                  <td><input type="text" name="capacity" value="50 Person" style="border-color: transparent;"></td>
+                  <td><input class="col-md-6 modal-edit-capacity" type="number" name="capacity" value="" style="border-color: transparent;"></td>
                 </tr>
                 <tr>
                   <th><img src="images/tools.png" alt="tool">&nbsp;Facility</th>
-                  <td>
-                    <ul>
-                      <li>Projector (1)</li>
-                      <li>White Board (1)</li>
-                      <li>Sofa (1)</li>
-                    </ul>
+                  <td>	
+					<textarea class="modal-edit-facility" name="facility" >
+					</textarea>
                   </td>
                 </tr>
                 <tr>
                   <th><img src="images/person_gear.png" alt="person and gear">&nbsp;Person in Change</th>
-                  <td>
-                    <textarea name="person_in_change">
-                      Admin 1 
-                      +628917S82993320 
-                      admin@telkom.co.id 
-                      Admin 2 
-                      +62891782993320
-                      admin@telkom.co.id
-                    </textarea>
-                  </td>
+					<td class="modal-edit-pic">
+					</td>
                 </tr>
                 <tr>
                   <th><span class="fa fa-map-marker"></span>&nbsp;Location</th>
-                  <td><input type="text" name="location" value="Jl. Geger Kalong no. 33, Bandung, Jawa Barat Indonesia"></td>
+                  <td><input type="text" class="modal-edit-location" name="location" value=""></td>
                 </tr>
               </tbody>
             </table>
@@ -314,7 +369,7 @@ function filter_sort(obj){
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary text-center">Save</button>
+        <button type="button" onclick="document.getElementById('form-id').submit();" class="btn btn-primary text-center modal-save" room="roomid" onclick="alert(this.room)">Save</button>
       </div>
     </div>
   </div>
@@ -322,6 +377,78 @@ function filter_sort(obj){
 
 
 </div>
+
+	<?php if($_SESSION['role'] == "admin"){ ?>
+	<!-- Modal -->
+	<div id="view-pic" class="modal fade" role="dialog">
+	  <div class="modal-dialog" style="width: 50%;margin-top: 10%;font-size: 130%;">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+			<h4 class="modal-title">Add Room By Admin</h4>
+		  </div>
+		  <div class="modal-body">
+			<form class="form-horizontal" action="" method="post">
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Building <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+						<select name="gedung" class="form-control">
+						<?php 
+						$query = array("ql" => "select * order by name");
+						$ruangans = $client->get_collection('gedungs',$query);
+						$i = 0;
+						while ($ruangans->has_next_entity()) {
+							$ruangan = $ruangans->get_next_entity();
+							$name = $ruangan->get('name');
+							$uuid = $ruangan->get('uuid');
+							echo"							
+								  <option value='$uuid'> $name</option>
+							";
+							$i++;
+						}
+						?>
+						</select>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Name <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="text" name="username" required class="form-control" placeholder="Name">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Capacity <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="number" name="capacity" min="0" required class="form-control" placeholder="Capacity">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Facility <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="text" name="facility" required class="form-control" placeholder="E.g Proyektor (1), White Board(3)">
+				  <p class="help-block">Pisahkan menggunakan koma</p>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Picture <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="file" name="foto" required class="form-control">
+				  <p class="help-block">Maksimal ukuran file 500kb.</p>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<div class="col-sm-12" style="margin-top:5%;text-align:center">
+				  <button type="submit" name="register" class="btn btn-primary">Submit</button>
+				</div>
+			  </div>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<?php } ?>
 <script>
 
   $(document).ready(function() {

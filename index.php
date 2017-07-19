@@ -84,21 +84,28 @@
 								$jum++;
 							}
 						}
+						
 						$data = array("ql" => "select * where aproved = 'pending'");
 							//reading data ruangan
 						$books = $client->get_collection('bookings',$data);
 						while ($books->has_next_entity()) {
 							$book = $books->get_next_entity();
-							$notif_booking .= '
-								<li>
-									<a href="?page=room-request-staff">
-										<span class="glyphicon glyphicon-calendar" style="color: grey;"></span>
-										&nbsp;'.$book->get('name').' meminta booking ruangan.
-									</a>
-								</li>
-								<li role="separator" class="divider"></li>
-							';
-							$jum++;
+							$data_r = array("ql" => "select * where uuid = '".$book->get('ruangan')."'");
+								//reading data ruangan
+							$ruangans = $client->get_collection('ruangans',$data_r);
+							$ruangan = $ruangans->get_next_entity();
+							if (@$_SESSION['pic']) if(in_array(@$ruangan->get('name'), @$_SESSION['pic'])){
+								$notif_booking .= '
+									<li>
+										<a href="?page=room-request-staff">
+											<span class="glyphicon glyphicon-calendar" style="color: grey;"></span>
+											&nbsp;'.$book->get('name').' meminta booking ruangan.
+										</a>
+									</li>
+									<li role="separator" class="divider"></li>
+								';
+								$jum++;
+							}
 						}
 						?>
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
@@ -130,6 +137,7 @@
 					if($_SESSION['role'] == "admin"){
 						$page = "room-request-staff";
 				?>
+						<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
