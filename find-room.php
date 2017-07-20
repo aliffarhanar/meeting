@@ -164,6 +164,7 @@ function filter_sort(obj){
 			}
 
 		}
+		
 		if(isset($_POST['cari'])){
 			$data = array("ql" => "select * where name ='".$_POST['cari']."'");
 			//reading data ruangan
@@ -174,7 +175,6 @@ function filter_sort(obj){
 		}
 		//do something with the data
 		if($ruangans->has_next_entity()){
-			
 			$listpic =array();
 			$i=0;
 			$data_pic = array("ql" => "select * where role ='staff'");
@@ -208,7 +208,7 @@ function filter_sort(obj){
 				  <div class="col-sm-3">
 					<div class="border-box panel panel-info">
 					  <div class="panel-body text-center" style="background: rgba(255, 255, 255, 0.5);">
-						<img src="<?php echo $foto;?>" class="img-responsive pull-center" style="width: 100%;height:150px;" alt="Image">
+						<img src="parse_image.php?image=<?php echo $name;?>" class="img-responsive pull-center" style="width: 100%;height:150px;" alt="Image">
 						<br><?php echo $name;?><br>
 						<span class="glyphicon glyphicon-star"></span>
 						<span class="glyphicon glyphicon-star"></span>
@@ -390,7 +390,7 @@ function filter_sort(obj){
 			<h4 class="modal-title">Add Room By Admin</h4>
 		  </div>
 		  <div class="modal-body">
-			<form class="form-horizontal" action="" method="post">
+			<form class="form-horizontal" action="create-room-admin.php" enctype="multipart/form-data" method="post">
 			  <div class="form-group">
 				<label class="col-sm-2 col-md-offset-1 frm-label">Building <span class="pull-right">:</span></label>
 				<div class="col-sm-8">
@@ -415,7 +415,13 @@ function filter_sort(obj){
 			  <div class="form-group">
 				<label class="col-sm-2 col-md-offset-1 frm-label">Name <span class="pull-right">:</span></label>
 				<div class="col-sm-8">
-				  <input type="text" name="username" required class="form-control" placeholder="Name">
+				  <input type="text" name="name" required class="form-control" placeholder="Name">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Address <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <textarea name="address" required class="form-control" placeholder="Address"> </textarea>
 				</div>
 			  </div>
 			  <div class="form-group">

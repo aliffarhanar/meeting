@@ -45,6 +45,13 @@
 	</script>
 </head>
 <body>
+	<link rel='stylesheet' href="vendor/nprogress/nprogress.css"/>
+	<script src="vendor/nprogress/nprogress.js"></script>
+	<script>
+		$('body').show();
+		NProgress.start();
+		NProgress.done();
+	</script>
 	<style type="text/css">
 		.list-sidebar-menu li {
 			border-bottom: 1px solid rgba(224, 230, 235, 1);
