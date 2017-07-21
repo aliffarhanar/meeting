@@ -280,7 +280,7 @@
 								$ruangans = $client->get_collection('ruangans',$data);
 								//do something with the data
 								$ruangan = $ruangans->get_next_entity();
-								echo '<i class="fa fa-check-square-o"></i>'.$ruangan->get('name').'<br>';
+								echo '<i class="fa fa-check-square-o"></i>'.@$ruangan->get('name').'<br>';
 							}
 							?>
 						</td>

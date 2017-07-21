@@ -144,7 +144,7 @@
 					if($_SESSION['role'] == "admin"){
 						$page = "room-request-staff";
 				?>
-						<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
+						<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Manage Building & Room </a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
 						<li><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>

@@ -1,7 +1,6 @@
 <?php
 
 if (isset($_POST)) {
-	include_once "inc/config.php";
 	function upload_foto($name) {
 		$curl = curl_init();
 		$filename = basename($_FILES["foto"]["name"]);
@@ -10,7 +9,7 @@ if (isset($_POST)) {
 		$file = curl_file_create($tmpfile, $contentType, $filename);
 		$post = array('file' =>  $file);
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://api.nobackend.id/nobackend.meeting/meeting/ruangans/".$name,
+		  CURLOPT_URL => "https://api.nobackend.id/nobackend.meeting/meeting/gedungs/".$name,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => "",
 		  CURLOPT_MAXREDIRS => 10,
@@ -32,14 +31,12 @@ if (isset($_POST)) {
 		  return true;
 		}
 	}
+	include_once "inc/config.php";
 	$body = array(
 		"name" => $_POST['name'],
-		"gedung" => $_POST['gedung'],
 		"address" => $_POST['address'],
-		"capacity" => $_POST['capacity'],
-		"facility" => $_POST['facility'],
 	);
-	$endpoint = 'ruangans';
+	$endpoint = 'gedungs';
 	$query_string = array();
 	$result = $client->post($endpoint, $query_string, $body);
 	session_start();
@@ -68,7 +65,7 @@ if (isset($_POST)) {
 			<div class='row'>
 				<div class='col-md-12'>
 					<div class='alert alert-success' style='text-align:center;margin-bottom: 0px;'>
-						<h4>Ruangan berhasil ditambahkan</h4> 
+						<h4>Gedung berhasil ditambahkan</h4> 
 					</div>
 				</div>
 			</div>";

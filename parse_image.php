@@ -3,7 +3,7 @@ if (!isset($_GET['image'])) exit;
 header("Content-Type: image/jpeg");
 $curl = curl_init();
 curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.nobackend.id/tbaas.rapatin/meeting/ruangans/".$_GET['image'],
+  CURLOPT_URL => "https://api.nobackend.id/nobackend.meeting/meeting/ruangans/".$_GET['image'],
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_FOLLOWLOCATION => true,
   CURLOPT_ENCODING => "",
