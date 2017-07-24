@@ -218,8 +218,10 @@ function filter_sort(obj){
 						<span class="glyphicon glyphicon-star"></span>
 						<span class="glyphicon glyphicon-star-empty"></span>
 						<br><span class="glyphicons glyphicons-group" style="color: black;"><?php echo $capacity;?> person</span>
-						<br><span class="glyphicons glyphicons" style="color: black;"><?php echo $facility;?></span>
-						<br><br><a class="btn btn-primary pull-center modal-detail" pic="<?php echo $roompic;?>" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|"."parse_image.php?image=".$name; ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
+						<br><span class="glyphicons glyphicons" style="color: black;"><?php echo strlen($facility)>30?mb_substr($facility,0,27)."...":$facility ;?></span>
+						<br><br>
+						<a class="btn btn-primary pull-center modal-detail" pic="<?php echo $roompic;?>" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|"."parse_image.php?image=".urlencode($name); ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
+						<a href="create-room-admin.php?delete=<?php echo $name;?>"" class="btn btn-primary pull-center">Delete</a>
 					  </div>
 					</div>
 				  </div>
@@ -404,13 +406,13 @@ function filter_sort(obj){
 				  <textarea name="address" required class="form-control" placeholder="Address"> </textarea>
 				</div>
 			  </div>
-			  <div class="form-group">
+			  <!--<div class="form-group">
 				<label class="col-sm-2 col-md-offset-1 frm-label">Picture <span class="pull-right">:</span></label>
 				<div class="col-sm-8">
 				  <input type="file" name="foto" required class="form-control">
 				  <p class="help-block">Maksimal ukuran file 500kb.</p>
 				</div>
-			  </div>
+			  </div> -->
 			  <div class="form-group">
 				<div class="col-sm-12" style="margin-top:5%;text-align:center">
 				  <button type="submit" name="register" class="btn btn-primary">Submit</button>
@@ -489,7 +491,7 @@ function filter_sort(obj){
 			  </div>
 			  <div class="form-group">
 				<div class="col-sm-12" style="margin-top:5%;text-align:center">
-				  <button type="submit" name="register" class="btn btn-primary">Submit</button>
+				  <button type="submit" name="create-room" class="btn btn-primary">Submit</button>
 				</div>
 			  </div>
 			</form>

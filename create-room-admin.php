@@ -1,6 +1,34 @@
 <?php
+if ($_GET['delete']) {
+	include_once "inc/config.php";
+	$endpoint = 'ruangans/'.$_GET['delete'];
+	$query_string = array();
+	$result =  $client->delete($endpoint, $query_string);
+	session_start();
+	if ($result->get_error() ){
+		$_SESSION['notif'] = "<br>
+							<div class='row'>
+								<div class='col-md-12'>
+									<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
+										<h4>Gagal Menghapus ruangan.</h4> 
+									</div>
+								</div>
+							</div>";
+		header("location:index.php?page=find-room");
+	} else {
+		$_SESSION['notif'] = "<br>
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='alert alert-success' style='text-align:center;margin-bottom: 0px;'>
+						<h4>Ruangan berhasil dihapus.</h4> 
+					</div>
+				</div>
+			</div>";
+		header("location:index.php?page=find-room");
+	}
+}
 
-if (isset($_POST)) {
+if (isset($_POST['create-room'])) {
 	include_once "inc/config.php";
 	function upload_foto($name) {
 		$curl = curl_init();

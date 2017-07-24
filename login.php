@@ -137,7 +137,7 @@
 		  <div class="form-group">
 			<div class="col-sm-offset-2 col-sm-9">
 			  <button type="submit" name="login" class="btn btn-primary pull-right">Login</button>
-			  <a class="btn btn-default pull-right" style="margin-right:2%" data-toggle="modal" data-target="#staff-signup">Sign up as staff</a>
+			  <a class="btn btn-default pull-right" style="margin-right:2%" data-toggle="modal" data-target="#staff-signup">Sign up</a>
 			</div>
 		  </div>
 		</form>
@@ -180,6 +180,15 @@
 			</div>
 		  </div>
 		  <div class="form-group">
+			<label class="col-sm-2 col-md-offset-1 frm-label">Sign Up as <span class="pull-right">:</span></label>
+			<div class="col-sm-8">
+			  <select name="role" required class="form-control">
+				<option value="user">User</option>
+				<option value="staff">Staff</option>
+			  </select>
+			</div>
+		  </div>
+		  <div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Name <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
 			  <input type="text" name="name" required class="form-control" placeholder="Full Name">
@@ -197,7 +206,7 @@
 			  <input type="email" name="email" required class="form-control" placeholder="Email Active">
 			</div>
 		  </div>
-		  <div class="form-group">
+		  <!--<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">PIC of <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
 				<?php 
@@ -219,7 +228,7 @@
 				}
 				?>
 			</div>
-		  </div>
+		  </div>-->
 		  <div class="form-group">
 			<div class="col-sm-12" style="margin-top:5%;text-align:center">
 			  <button type="submit" name="register" class="btn btn-primary">Submit</button>
