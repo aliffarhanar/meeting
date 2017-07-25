@@ -65,6 +65,9 @@
 			font-family: -webkit-body;
 			font-weight: bolder;
 		}
+		.list-sidebar-menu li.active {
+			background-color: #dce3e8;
+		}
 	</style>
 	<nav class="navbar navbar-default" style="margin-right: -1.15% !important;">
 		<div class="container-fluid">
@@ -142,30 +145,31 @@
 		</div>
 	</nav>
 	<div class="row" style="background-image:url('images/bg-putih.png');height: 135%;margin-bottom:100px;">
-		<div class="col-sm-2 col-md-2 sidebar-offcanvas" style=" background-color: rgba(255, 255, 255, 0.5); height: 100%;" id="sidebar-wrapper" role="navigation">
+		<div class="col-sm-2 col-md-2 sidebar-offcanvas" style=" background-color: rgba(255, 255, 255, 0.5); height: 100%;padding-right: 0;" id="sidebar-wrapper" role="navigation">
 			<ul class="nav nav-sidebar list-sidebar-menu">
 				<?php
 					if($_SESSION['role'] == "admin"){
 						$page = "room-request-staff";
 				?>
-						<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Manage Building & Room </a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=find-room">Manage Building & Room </a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
 				<?php
 					}else if($_SESSION['role'] == "staff"){
 						$page = "dashboard";
 				?>
 						<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
-						<li><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
 				<?php
 					}else if ($_SESSION['role'] == "user") {
+						$page = "dashboard";
 				?>
-					<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
-					<li><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
+						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
 				<?php
 					}
 				?>

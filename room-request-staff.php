@@ -92,7 +92,7 @@
 				<tbody>
 				<?php
 					$no=1;
-						$data = array('ql' => "select * where aproved='pending'");		
+						$data = array('ql' => "select * where approved='pending'");		
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
@@ -100,7 +100,7 @@
 							$booking = $bookings->get_next_entity();
 							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
 							//reading data ruangan
-							$ruangans = $client->get_collection('ruangans',$data);
+							$ruangans = $client->get_collection('ruangans', $data);
 							//do something with the data
 							$ruangan = $ruangans->get_next_entity();
 					?>

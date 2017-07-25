@@ -1,6 +1,6 @@
 <div class="row col-md-12">
 	<div class="col-md-12">
-		<h3>Registered Staff</h3>
+		<h3>Registered User</h3>
 	</div>
 	<div class="col-md-12" style="border-top: 2px solid grey; padding-top: 2%;">
 	<div class="col-md-12">
@@ -97,7 +97,7 @@
 						<th>Number</th>
 						<th>ID</th>
 						<th>Name</th>
-						<th>PIC of</th>
+						<th>Role</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -106,12 +106,12 @@
 				$no=1;
 				if(isset($_GET['cari'])){
 					$data = array(
-							"ql" => "select * where approved = 'pending' AND role = 'staff'
+							"ql" => "select * where approved = 'pending' 
 							AND name contains ='".$_GET['cari']."'");
 					//reading data ruangan
 					$pics = $client->get_collection('penggunas',$data);
 				}else{
-					$data = array("ql" => "select * where approved = 'pending' AND role = 'staff'");
+					$data = array("ql" => "select * where approved = 'pending'");
 					//reading data ruangan
 					$pics = $client->get_collection('penggunas',$data);
 				}
@@ -125,16 +125,16 @@
 						<td><?=$no?></td>
 						<td><?=$pic->get('username')?></td>
 						<td><?=$pic->get('name')?></td>
-						<td>
+						<td><?=$pic->get('role')?>
 							<?php
-								foreach($room as $rp){
-									$data = array('ql' => "select * where uuid=".$rp);		
-									//reading data ruangan
-									$ruangans = $client->get_collection('ruangans',$data);
-									//do something with the data
-									$ruangan = $ruangans->get_next_entity();
-									echo '<i class="fa fa-check-square-o"></i>'.$ruangan->get('name').'<br>';
-								}
+								#foreach($room as $rp){
+								#	$data = array('ql' => "select * where uuid=".$rp);		
+								#	//reading data ruangan
+								#	$ruangans = $client->get_collection('ruangans',$data);
+								#	//do something with the data
+								#	$ruangan = $ruangans->get_next_entity();
+								#	echo '<i class="fa fa-check-square-o"></i>'.$ruangan->get('name').'<br>';
+								#}
 							?>
 						</td>
 						<td>
