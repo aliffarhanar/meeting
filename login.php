@@ -76,6 +76,7 @@
 				$password = $_POST['password'];
 				$name = $_POST['name'];
 				$phone = $_POST['phone'];
+				$role = $_POST['role'];
 				$email = $_POST['email'];
 				$pic=array();
 				if (isset($_POST['room'])) for($i=0;$i<count($_POST['room']);$i++){
@@ -89,7 +90,7 @@
 					"name" => $name,
 					"phone" => $phone,
 					"email" => $email,
-					"role" => "staff",
+					"role" => $role,
 					"pic" => $pic,
 					"approved" => "pending"
 				);

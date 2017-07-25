@@ -221,7 +221,9 @@ function filter_sort(obj){
 						<br><span class="glyphicons glyphicons" style="color: black;"><?php echo strlen($facility)>30?mb_substr($facility,0,27)."...":$facility ;?></span>
 						<br><br>
 						<a class="btn btn-primary pull-center modal-detail" pic="<?php echo $roompic;?>" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|"."parse_image.php?image=".urlencode($name); ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
-						<a href="create-room-admin.php?delete=<?php echo $name;?>"" class="btn btn-primary pull-center">Delete</a>
+						<?php if ($_SESSION['role'] == "admin") { ?>
+							<a href="create-room-admin.php?delete=<?php echo $name;?>"" class="btn btn-primary pull-center">Delete</a>
+						<?php }  ?>
 					  </div>
 					</div>
 				  </div>
@@ -426,7 +428,7 @@ function filter_sort(obj){
 	
 	<!-- Modal -->
 	<div id="create-room" class="modal fade" role="dialog">
-	  <div class="modal-dialog" style="width: 50%;margin-top: 10%;font-size: 130%;">
+	  <div class="modal-dialog" style="width: 50%;font-size: 130%;">
 
 		<!-- Modal content-->
 		<div class="modal-content">

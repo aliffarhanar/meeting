@@ -98,6 +98,17 @@ include_once "inc/config.php";
 		</div>
 		<?php if ($pic->get('role') == 'staff') { ?>
 		<div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Role<span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+					<label>
+					  <select name='role'class="form-control">
+						<option value="user">User</option>
+						<option value="staff">Staff</option>
+					  </select>
+					</label>
+				</div>
+			</div>
+		<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">PIC of <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
 				<?php 
@@ -118,6 +129,8 @@ include_once "inc/config.php";
 						$i++;
 					}
 				?>
+				</div>
+			</div>
 				<?php
 					#foreach($room as $key=> $rp){
 					#	$data = array('ql' => "select * where uuid=".$rp);		
@@ -132,21 +145,20 @@ include_once "inc/config.php";
 					#			</label>
 					#		</div>";
 					#}
-					
-		} else {
-				?>
-			<div class="form-group">
+		} else { ?>
+		<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Role<span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			<label>
-			  <select name='role'class="form-control">
-				<option value="user">User</option>
-				<option value="staff">Staff</option>
-			  </select>
-			</label>
-		<?php } ?>
+				<label>
+				  <select name='role'class="form-control">
+					<option value="user">User</option>
+					<option value="staff">Staff</option>
+				  </select>
+				</label>
 			</div>
 		</div>
+		<?php } ?>
+			
 </div>
 <?php if (isset($_GET['edit'])) { ?>
 	<div class="modal-footer">

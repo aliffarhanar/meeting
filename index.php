@@ -50,8 +50,12 @@
 	<script>
 		$('body').show();
 		NProgress.start();
-		NProgress.done();
-	</script>
+		NProgress.set(0.4);
+		NProgress.inc();
+		jQuery(window).load(function () {
+			NProgress.done();
+		});
+	  </script>
 	<style type="text/css">
 		.list-sidebar-menu li {
 			border-bottom: 1px solid rgba(224, 230, 235, 1);

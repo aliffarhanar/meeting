@@ -194,8 +194,8 @@
 		</div>
 		<div class="col-md-2">
 			<div class="input-group input-group-sm">
-				<select class="form-control" aria-describedby="sizing-addon3">
-					
+				<select name="room" class="form-control" aria-describedby="sizing-addon3">
+					<option value="all"> All room </option>
 					<?php 
 					$query = array("ql" => "select * order by name");
 					$ruangans = $client->get_collection('ruangans',$query);
@@ -212,14 +212,38 @@
 		</div>
 	</div>
 	<div class="col-md-12" style="overflow-y: scroll;">
-		
 		<div class="col-md-5" style="background-color: white; padding: 10px;">
 			<div id="calendar"></div>
 		</div>
-		
 		<div class="table-responsive col-md-7">
 			<table class="table table-bordered">
 				<tbody>
+				<?php
+					$no=1;
+					$data = array('ql' => "select * where aproved='approved'");		
+					$bookings = $client->get_collection('bookings',$data);
+					if($bookings->has_next_entity()){
+						//do something with the data
+						while ($bookings->has_next_entity()) {
+							$booking = $bookings->get_next_entity();
+							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
+							//reading data ruangan
+							$ruangans = $client->get_collection('ruangans',$data);
+							//do something with the data
+							$ruangan = $ruangans->get_next_entity();
+							$start = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('start')));
+							$end = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('end')));
+					?>
+						{
+							title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
+							start: '<?=$start?>',
+							end: '<?=$end?>'
+						},
+						<?php 
+							$no++; 
+						}
+					}
+				?>
 					<tr>
 						<td rowspan="3">9:00</td>
 					</tr>
