@@ -31,16 +31,37 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>25-05-2017</td>
-						<td>Adi Mulya</td>
-						<td>152637748</td>
-						<td>Auditorium</td>
-						<td>9.00 - 12.00</td>
-						<td>Rejected</td>
-						<td><a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-pic">view</a></td>
-					</tr>
+					<?php
+						$no=1;
+						$data = array('ql' => "select * where user='".$_SESSION['name']."'");		
+						$bookings = $client->get_collection('bookings',$data);
+						if($bookings->has_next_entity()){
+							//do something with the data
+							while ($bookings->has_next_entity()) {
+								$booking = $bookings->get_next_entity();
+								$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
+								//reading data ruangan
+								$ruangans = $client->get_collection('ruangans',$data);
+								//do something with the data
+								$ruangan = $ruangans->get_next_entity();
+						?>
+							<tr>
+								<td><?=$no?></td>
+								<td><?=$booking->get('tanggal')?></td>
+								<td><?=$booking->get('name')?></td>
+								<td><?=$booking->get('created')?></td>
+								<td><?=$ruangan->get('name')?></td>
+								<td><?=$booking->get('start').' - '.$booking->get('end')?></td>
+								<td><?=$booking->get('approved')?></td>
+								<td><a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-pic">view</a></td>
+							</tr>
+							<?php 
+								$no++; 
+							} 
+						}else{
+							echo "<td colspan='6'>TIDAK ADA MEETING</td>";
+						}
+					?>
 				</tbody>
 			</table>
 		</div>

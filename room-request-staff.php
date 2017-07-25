@@ -231,8 +231,6 @@
 							$ruangans = $client->get_collection('ruangans',$data);
 							//do something with the data
 							$ruangan = $ruangans->get_next_entity();
-							$start = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('start')));
-							$end = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('end')));
 					?>
 						{
 							title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',

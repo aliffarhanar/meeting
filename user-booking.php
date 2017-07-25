@@ -23,17 +23,20 @@
 				$participant = $_POST['participant'];
 				$food = $_POST['food'];
 				$note = $_POST['note'];
+				$user = $_SESSION['name'];
 				$body = array(
 					"name" => $name,
 					"topic" => $topic,
 					"tanggal" => $tanggal,
 					"jam" => $jam,
+					"start" => $start,
+					"end" => $end,
 					"participant" => $participant,
 					"food" =>$food,
 					"note" => $note,
 					"ruangan" => $ruangan->get('uuid'),
-					"aproved" => "pending",
-					"user" => 1
+					"approved" => "pending",
+					"user" => $user,
 				);
 				$success = false;
 				$endpoint = 'booking';
