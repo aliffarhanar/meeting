@@ -151,25 +151,25 @@
 					if($_SESSION['role'] == "admin"){
 						$page = "room-request-staff";
 				?>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=find-room">Manage Building & Room </a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
+						<li class="<?=!isset($_GET['page'])||$_GET['page']=='find-room'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Manage Building & Room </a></li>
+						<li class="<?=$_GET['page']=='history-admin'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
+						<li class="<?=$_GET['page']=='room-request-staff'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
+						<li class="<?=$_GET['page']=='user-management'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
 						<li class=""><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
 				<?php
 					}else if($_SESSION['role'] == "staff"){
 						$page = "dashboard";
 				?>
-						<li class="active"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
+						<li class="<?=!isset($_GET['page'])||$_GET['page']=='find-room'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
+						<li class="<?=$_GET['page']=='history'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
+						<li class="<?=$_GET['page']=='room-request-staff'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
+						<li class="<?=$_GET['page']=='settings'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
 				<?php
 					}else if ($_SESSION['role'] == "user") {
 						$page = "dashboard";
 				?>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
+						<li class="<?=!isset($_GET['page'])||$_GET['page']=='find-room'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Find Room </a></li>
+						<li class="<?=$_GET['page']=='history'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=history">History</a></li>
 				<?php
 					}
 				?>
