@@ -2,16 +2,16 @@
 	<div class="col-md-12">
 		<h3>Profile</h3>
 	</div>
-	<div class="col-md-12" style="border-top : 2px solid grey;padding-top:2%">
+	<div class="col-md-12" style="border-top : 2px solusername grey;padding-top:2%">
 		<?php
 			if(isset($_POST['edit'])){
-				$id = $_POST['id'];
+				$username = $_POST['username'];
 				$password = $_POST['password'];
 				$name = $_POST['name'];
 				$phone = $_POST['phone'];
 				$email = $_POST['email'];
 				$body = array(
-					"id" => $id,
+					"username" => $username,
 					"password" => $password,
 					"phone" => $phone,
 					"email" => $email
@@ -31,7 +31,7 @@
 					";
 				} else {
 					
-					$_SESSION['id'] =$id;
+					$_SESSION['username'] =$username;
 					$_SESSION['password'] = $password;	
 					$_SESSION['phone'] = $phone;	
 					$_SESSION['email'] = $email;	
@@ -50,15 +50,15 @@
 		?>
 		<form class="form-horizontal col-md-8" style="margin-left:-6%" action="" method="post">
 		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">ID <span class="pull-right">:</span></label>
+			<label class="col-sm-2 col-md-offset-1 frm-label">username <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="text" name="id" class="form-control" placeholder="ID" value="<?php echo $_SESSION['id']; ?>">
+			  <input type="text" name="username" class="form-control" placeholder="username" value="<?php echo $_SESSION['username']; ?>">
 			</div>
 		  </div>
 		  <div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Password <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="text" name="password" class="form-control" placeholder="Password" value="<?php echo $_SESSION['password']; ?>">
+			  <input type="text" name="password" class="form-control" placeholder="Password" value="<?php echo $_SESSION['password']; ?>" readonly>
 			</div>
 		  </div>
 		  <div class="form-group">

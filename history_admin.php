@@ -62,7 +62,7 @@
 						<td><?=$booking->get('created')?></td>
 						<td><?=$ruangan->get('name')?></td>
 						<td><?=$booking->get('start').' - '.$booking->get('end')?></td>
-						<td><?=$booking->get('aproved')?></td>
+						<td><?=$booking->get('approved')?></td>
 						<td><a href="?page=edit-request&id=<?=$booking->get('created')?>" class="btn btn-sm btn-primary">edit</a></td>
 					<?php $no++; }	?>
 					</tr>

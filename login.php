@@ -26,7 +26,7 @@
 					$_SESSION['login_user'] = "login";
 					$_SESSION['name'] = "Admin";
 					$_SESSION['role'] = "admin";
-					$_SESSION['id'] = "admin";
+					$_SESSION['username'] = "admin";
 					$_SESSION['password'] = "admin";
 					$_SESSION['phone'] = "admin";
 					$_SESSION['email'] = "admin";

@@ -28,7 +28,7 @@ include_once "inc/config.php";
 			"role" => $role,
 			"email" => $email,
 			"pic" => $pic1,
-			"aproved" => "approved"
+			"approved" => "approved"
 		);
 		$endpoint = 'penggunas/'.$pic->get('uuid');
 		$query_string = array();

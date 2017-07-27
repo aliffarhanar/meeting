@@ -4,7 +4,7 @@
 	</div>
 	<div class="col-md-12" style="border-top: 2px solid grey; padding-top: 2%;">
 	<div class="col-md-12">
-		<h4>Need Aproval</h4>
+		<h4>Need approval</h4>
 		<hr style="border-color: black;">
 	</div>
 		<div class="col-md-3">

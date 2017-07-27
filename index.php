@@ -81,7 +81,7 @@
 						$notif_booking = "";
 						if ($_SESSION['role'] == "admin") {
 							$notif_user = "";
-							$data = array("ql" => "select * where aproved = 'pending'");
+							$data = array("ql" => "select * where approved = 'pending'");
 								//reading data ruangan
 							$pics = $client->get_collection('picruangans',$data);
 							while ($pics->has_next_entity()) {
@@ -99,7 +99,7 @@
 							}
 						}
 						
-						$data = array("ql" => "select * where aproved = 'pending'");
+						$data = array("ql" => "select * where approved = 'pending'");
 							//reading data ruangan
 						$books = $client->get_collection('bookings',$data);
 						while ($books->has_next_entity()) {

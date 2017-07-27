@@ -40,7 +40,7 @@
 			"food" =>$food,
 			"note" => $note,
 			"ruangan" => $ruangan->get('uuid'),
-			"aproved" => "pending",
+			"approved" => "pending",
 			"user" => 1
 		);
 		

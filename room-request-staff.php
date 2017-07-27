@@ -14,12 +14,12 @@
 	</div>
 	<div class="col-md-12" style="padding-top:2%; overflow-y: scroll;">
 	<?php
-			if(isset($_GET['aprove'])){
-				$endpoint = 'bookings/'.$_GET['aprove'];
+			if(isset($_GET['approve'])){
+				$endpoint = 'bookings/'.$_GET['approve'];
 				$query_string = array();
 				
 				$body = array(
-					"aproved" => "approved"
+					"approved" => "approved"
 				);
 				
 				$result = $client->put($endpoint, $query_string, $body);
@@ -29,7 +29,7 @@
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
 							<div class='alert alert-danger' style='text-align:center;'>
-								<h4>Gagal Melakukan Approval,Meeting ".$_GET['aprove']." belum di approve.</h4>
+								<h4>Gagal Melakukan Approval,Meeting ".$_GET['approve']." belum di approve.</h4>
 							</div>
 						</div>
 					</div>
@@ -39,7 +39,7 @@
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
 							<div class='alert alert-success' style='text-align:center;'>
-								<h4>Meeting ".$_GET['aprove']." sudah berhasil di approve.</h4>
+								<h4>Meeting ".$_GET['approve']." sudah berhasil di approve.</h4>
 							</div>
 						</div>
 					</div>
@@ -112,7 +112,7 @@
 							<td><?=$booking->get('name')?></td>
 							<td>
 								<a href="?page=room-request-staff&reject=<?=$booking->get('name')?>" class="btn btn-sm btn-danger" ><i class="fa fa-close" aria-hidden="true"></i></a>
-								<a href="?page=room-request-staff&aprove=<?=$booking->get('name')?>" class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
+								<a href="?page=room-request-staff&approve=<?=$booking->get('name')?>" class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
 							</td>
 						</tr>
 						<?php 
@@ -156,7 +156,7 @@
 				<tbody>
 				<?php
 					$no=1;
-					$data = array('ql' => "select * where aproved='approved'");		
+					$data = array('ql' => "select * where approved='approved'");		
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
@@ -215,12 +215,15 @@
 		<div class="col-md-5" style="background-color: white; padding: 10px;">
 			<div id="calendar"></div>
 		</div>
-		<div class="table-responsive col-md-7">
+		<div class="col-md-7">
+			<div style="position:absolute;background-color:white;width:100%;height:100%;opacity:0.85">
+				<h3 style="text-align:center;margin-top:10%;">COMING SOON</h3>
+			</div>
 			<table class="table table-bordered">
 				<tbody>
 				<?php
 					$no=1;
-					$data = array('ql' => "select * where aproved='approved'");		
+					$data = array('ql' => "select * where approved='approved'");		
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
@@ -231,6 +234,8 @@
 							$ruangans = $client->get_collection('ruangans',$data);
 							//do something with the data
 							$ruangan = $ruangans->get_next_entity();
+							$start = $booking->get('start');
+							$end =$booking->get('end');
 					?>
 						{
 							title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
@@ -308,7 +313,7 @@
 			events: [
 			<?php
 					$no=1;
-					$data = array('ql' => "select * where aproved='approved'");		
+					$data = array('ql' => "select * where approved='approved'");		
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
