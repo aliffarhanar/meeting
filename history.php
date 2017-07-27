@@ -16,6 +16,37 @@
 		</div>
 	</div>
 	<div class="col-md-12" style="padding-top:2%;">
+		<?php
+			if(isset($_GET['delete-book'])){
+				$endpoint = 'bookings/'.$_GET['delete-book'];
+				$query_string = array();
+							
+				$result = $client->delete($endpoint, $query_string);
+				
+				if ($result->get_error()){
+					echo "
+					<div class='row'>
+						<div class='col-md-8 col-md-offset-2'>
+							<div class='alert alert-danger' style='text-align:center;'>
+								<h4>Gagal Melakukan Penghapusan Request,".$_GET['delete-book']." belum di hapus.</h4>
+							</div>
+						</div>
+					</div>
+					";
+				} else {
+					echo "
+					<div class='row'>
+						<div class='col-md-8 col-md-offset-2'>
+							<div class='alert alert-success' style='text-align:center;'>
+								<h4>".$_GET['delete-book']." sudah berhasil di hapus dari daftar booking anda.</h4>
+							</div>
+						</div>
+					</div>
+					";
+					echo '<meta http-equiv="refresh" content="1; url=?page=history">';
+				}				
+			}
+		?>
 		<div class="table-responsive col-md-12">
 			<table class="table table-bordered">
 				<thead style="background-color: #e1e1e1;">
@@ -28,6 +59,7 @@
 						<th>TIME</th>
 						<th>STATUS</th>
 						<th style="width: 5%;">PIC</th>
+						<th style="width: 5%;"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -54,6 +86,7 @@
 								<td><?=$booking->get('start').' - '.$booking->get('end')?></td>
 								<td><?=$booking->get('approved')?></td>
 								<td><a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#view-pic">view</a></td>
+								<td><a href="?page=history&delete-book=<?=$booking->get('name')?>" class="btn btn-sm btn-danger">delete</a></td>
 							</tr>
 							<?php 
 								$no++; 
