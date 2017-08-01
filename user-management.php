@@ -94,7 +94,7 @@
 			<table class="table table-bordered">
 				<thead style="background-color: #e1e1e1;">
 					<tr>
-						<th>Number</th>
+						<th>No.</th>
 						<th>ID</th>
 						<th>Name</th>
 						<th>Role</th>
@@ -238,12 +238,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-12" style="padding-top: 2%; overflow-y: scroll; height: 200px;">
+	<div class="col-md-12" style="padding-top: 2%; overflow-y: scroll; max-height: 300px;">
 		<div class="table-responsive col-md-12">
-			<table class="table table-bordered" style="width: 80%;">
+			<table class="table table-bordered" style="max-width: 90%;">
 				<thead style="background-color: #e1e1e1;">
 					<tr>
-						<th>Number</th>
+						<th>No</th>
 						<th>ID</th>
 						<th>Name</th>
 						<th>Role</th>
@@ -272,15 +272,15 @@
 						<td><?=$no?></td>
 						<td><?=$pic->get('username')?></td>
 						<td><?=$pic->get('name')?></td>
-						<td><?=$pic->get('role')?>
+						<td><?=ucwords($pic->get('role'))?>
 							<?php
-								if ($room) foreach($room as $rp){
+								if ($room) echo '<br>'; foreach($room as $rp){
 								$data = array('ql' => "select * where uuid=".$rp);		
 								//reading data ruangan
 								$ruangans = $client->get_collection('ruangans',$data);
 								//do something with the data
 								$ruangan = $ruangans->get_next_entity();
-								echo '<i class="fa fa-check-square-o"></i>'.@$ruangan->get('name').'<br>';
+								echo '<i align="left" class="fa fa-check-square-o"></i>'.@$ruangan->get('name').'<br>';
 							}
 							?>
 						</td>

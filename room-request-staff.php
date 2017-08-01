@@ -194,17 +194,17 @@
 		</div>
 		<div class="col-md-2">
 			<div class="input-group input-group-sm">
-				<select name="room" class="form-control" aria-describedby="sizing-addon3">
-					<option value="all"> All room </option>
-					<?php 
+				<select name="room" onchange="location = this.value;" class="form-control" aria-describedby="sizing-addon3">
+					<option value="?page=room-request-staff"> All room </option>
+					<?php
+					$getRoom = isset($_GET['room'])?urldecode($_GET['room']):'all';
 					$query = array("ql" => "select * order by name");
 					$ruangans = $client->get_collection('ruangans',$query);
 					while ($ruangans->has_next_entity()) {
 						$ruangan = $ruangans->get_next_entity();
 						$name = $ruangan->get('name');
 						$uuid = $ruangan->get('uuid');
-						echo"<option value='$name'>$name</option>";
-						$i++;
+						echo "<option ".($getRoom==$ruangan->get('name')?'selected':'')." value='?page=room-request-staff&room=$name'>$name</option>";
 					}
 					?>
 				</select>
@@ -216,61 +216,75 @@
 			<div id="calendar"></div>
 		</div>
 		<div class="col-md-7">
-			<div style="position:absolute;background-color:white;width:100%;height:100%;opacity:0.85">
-				<h3 style="text-align:center;margin-top:10%;">COMING SOON</h3>
-			</div>
+			<h4 style="text-align:center;font-weight: 800;"><?=$getRoom?></h4>
 			<table class="table table-bordered">
 				<tbody>
 				<?php
-					$no=1;
-					$data = array('ql' => "select * where approved='approved'");		
-					$bookings = $client->get_collection('bookings',$data);
+					$no=1;$start="";
+					
+					if ($getRoom!='all') {
+						//GET UUID Ruangan
+						$filters = array('ql' => "select * where name='".$getRoom."'");		
+						//reading data ruangan
+						$getFilter = $client->get_collection('ruangans', $filters);
+						//do something with the data
+						$uuid = $getFilter->get_next_entity();
+						$filter = array('ql' => "select * where ruangan='".$uuid->get('uuid')."'");
+						$bookings = $client->get_collection('bookings', $filter);
+					} else {
+						$bookings = $client->get_collection('bookings');
+					}
 					if($bookings->has_next_entity()){
 						//do something with the data
 						while ($bookings->has_next_entity()) {
 							$booking = $bookings->get_next_entity();
-							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
-							//reading data ruangan
-							$ruangans = $client->get_collection('ruangans',$data);
-							//do something with the data
-							$ruangan = $ruangans->get_next_entity();
+							if ($start == $booking->get('start')) { // skip even members
+								continue;
+							}
 							$start = $booking->get('start');
 							$end =$booking->get('end');
-					?>
-						{
-							title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
-							start: '<?=$start?>',
-							end: '<?=$end?>'
-						},
-						<?php 
+							
+							//FETCH PER HOUR
+							$datas = array('ql' => "select * where start='".$start."'");
+							$bookingsPerJam = $client->get_collection('bookings',$datas);
+							$skipTheStart = "";
+							while ($bookingsPerJam->has_next_entity()) {
+								$bookingJam = $bookingsPerJam->get_next_entity();
+								
+								$dataRuangan = array('ql' => "select * where uuid=".$bookingJam->get('ruangan'));		
+								//reading data ruangan
+								$ruangans = $client->get_collection('ruangans',$dataRuangan);
+								//do something with the data
+								$ruangan = $ruangans->get_next_entity();
+								
+								$dataPengguna = array('ql' => "select * where uuid=".$bookingJam->get('user'));		
+								//reading data penggunas
+								$penggunas = $client->get_collection('penggunas',$dataPengguna);
+								//do something with the data
+								$pengguna = $penggunas->get_next_entity();
+								$total_row = json_decode($bookingsPerJam->get_json())->count;
+								if ($skipTheStart != $bookingJam->get('start')) { // skip even members 
+							?>
+							<tr>
+								<td rowspan="<?=$total_row>0?$total_row+1:1?>"><?=$start?></td>
+							</tr>
+							<?php } ?>
+							<tr>
+								<td><?=$bookingJam->get('approved')=='approved'?'<i class="fa fa-check"></i>':'<i class="fa fa-question"></i>'?></td>
+								<td>
+									<?=$ruangan->get('name')?> (<?=($bookingJam->get('user')!=''?$pengguna->get('name'):'Not known user')?>)  
+									<a href="?page=detail-request&detail=<?=$bookingJam->get('name')?>"><i class="fa fa-file-o"></i></a>
+								</td>
+							</tr>
+							<?php
+							$skipTheStart = $bookingJam->get('start');
+							}
 							$no++; 
 						}
+					} else {
+						echo '<i>No event...</i>';
 					}
-				?>
-					<tr>
-						<td rowspan="3">9:00</td>
-					</tr>
-					<tr>
-						<td>?</td>
-						<td>
-							Rapat Koordinasi (Adi Mulyanto)  <a href="?page=detail-request"><img src="images/file.png" alt="file"></a>
-						</td>
-					</tr>
-					<tr>
-						<td>?</td>
-						<td>Rapat Koordinasi (Adi Mulyanto)  <a href="?page=detail-request"><img src="images/file.png" alt="file"></a></td>
-					</tr>
-					<tr>
-						<td rowspan="3">9:00</td>
-					</tr>
-					<tr>
-						<td>?</td>
-						<td>Rapat Koordinasi (Adi Mulyanto)  <a href="?page=detail-request"><img src="images/file.png" alt="file"></a></td>
-					</tr>
-					<tr>
-						<td>?</td>
-						<td>Rapat Koordinasi (Adi Mulyanto)  <a href="?page=detail-request"><img src="images/file.png" alt="file"></a></td>
-					</tr>					
+				?>					
 				</tbody>
 			</table>
 		</div>
@@ -303,12 +317,11 @@
 	$(document).ready(function() {
 		$('#calendar').fullCalendar({
 			header: {
-				left: 'prev',
+				left: 'prev month',
 				center: 'title',
-				right: 'next',
+				right: 'today next',
 			},
 			navLinks: true, // can click day/week names to navigate views
-			editable: true,
 			eventLimit: true, // allow "more" link when too many events
 			events: [
 			<?php
@@ -330,7 +343,9 @@
 						{
 							title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
 							start: '<?=$start?>',
-							end: '<?=$end?>'
+							end: '<?=$end?>',
+							url: '?page=room-request-staff&room=<?=$getRoom?>',
+
 						},
 						<?php 
 							$no++; 
