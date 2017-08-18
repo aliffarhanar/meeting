@@ -7,15 +7,15 @@
 ?>
 <html>
 <head>
-	<title>Meeting Room</title>		
+	<title>Meeting Room</title>
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/bootstrap-min.css">
-	<link rel="stylesheet" href="css/style.css">	
+	<link rel="stylesheet" href="css/style.css">
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="col-md-7 col-md-offset-2" style="margin-top:10%;opacity:1">	
+<div class="col-md-7 col-md-offset-2" style="margin-top:10%;opacity:1">
 	<div class="frm-login col-md-offset-2">
 		<div class="frm-title">
 			<img src="images/logo-title.png" width="200px">
@@ -23,27 +23,26 @@
 		<?php
 			if(isset($_POST['login'])){
 				if($_POST['username'] == "admin" AND $_POST['password'] == "admin"){
-					$_SESSION['login_user'] = "login";
-					$_SESSION['name'] = "Admin";
-					$_SESSION['role'] = "admin";
-					$_SESSION['username'] = "admin";
-					$_SESSION['password'] = "admin";
-					$_SESSION['phone'] = "admin";
-					$_SESSION['email'] = "admin";
-					header("location:index.php");			
+
 				}else{
-					$query = array("ql" => "select * where username='".$_POST['username']."' 
-											AND password ='".$_POST['password']."'
-											");
-					$users = $client->get_collection('penggunas',$query);
-					if($users->has_next_entity()){
-						$user = $users->get_next_entity();
-						if ($user->get('approved')!='approved') {
+					if ($user = $client->login($_POST['username'], $_POST['password'])) {
+						$token = $client->get_oauth_token();
+					if ($user->get('roles') == 'admin') {
+						$_SESSION['login_user'] = "login";
+						$_SESSION['name'] = "Admin";
+						$_SESSION['role'] = "admin";
+						$_SESSION['username'] = "admin";
+						$_SESSION['password'] = "admin";
+						$_SESSION['phone'] = "admin";
+						$_SESSION['email'] = "admin";
+						header("location:index.php");
+
+					} elseif ($user->get('approved')!='approved') {
 							echo "<br>
 							<div class='row'>
 								<div class='col-md-8 col-md-offset-2'>
 									<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
-										<h4>Gagal Login : Akun anda belum aktif.</h4> 
+										<h4>Gagal Login ".$user->get('metadata','collections','roles')." : Akun anda belum aktif.</h4>
 									</div>
 								</div>
 							</div>";
@@ -51,12 +50,12 @@
 							$_SESSION['login_user'] = "login";
 							$_SESSION['name'] = $user->get('name');
 							$_SESSION['role'] = $user->get('role');
-							$_SESSION['username'] =$user->get('username');	
-							$_SESSION['password'] = $user->get('password');	
-							$_SESSION['phone'] = $user->get('phone');	
-							$_SESSION['email'] = $user->get('email');	
-							$_SESSION['pic'] = $user->get('pic');	
-							header("location:index.php");					
+							$_SESSION['username'] =$user->get('username');
+							$_SESSION['password'] = $user->get('password');
+							$_SESSION['phone'] = $user->get('phone');
+							$_SESSION['email'] = $user->get('email');
+							$_SESSION['pic'] = $user->get('pic');
+							header("location:index.php");
 						}
 					}else{
 						echo "<br>
@@ -70,7 +69,7 @@
 					}
 				}
 			}
-			
+
 			if(isset($_POST['register'])){
 				$id = $_POST['username'];
 				$password = $_POST['password'];
@@ -84,20 +83,21 @@
 						array_push($pic,$_POST['room'][$i]);
 					}
 				}
-				$body = array(
+
+				$bodyToUsers = array(
 					"username" => $id,
-					"password" => $password,
 					"name" => $name,
-					"phone" => $phone,
 					"email" => $email,
+					"password" => $password,
+					"tel" => $phone,
+					"approved" => "pending",
 					"role" => $role,
-					"pic" => $pic,
-					"approved" => "pending"
 				);
-				$endpoint = 'penggunas';
+
+				$endpointUsers = 'users';
 				$query_string = array();
-				$result = $client->post($endpoint, $query_string, $body);
-				if ($result->get_error()){
+				$resultUsers = $client->post($endpointUsers, $query_string, $bodyToUsers);
+				if ($resultUsers->get_error()){
 					echo "
 					<br>
 					<div class='row'>
@@ -109,6 +109,8 @@
 					</div>
 					";
 				} else {
+					$endpointRoles = 'roles/'.$role.'/users/'.$name;
+					$resultRoles = $client->post($endpointRoles, $query_string, array());
 					echo "
 					<br>
 					<div class='row'>
@@ -210,7 +212,7 @@
 		  <!--<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">PIC of <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-				<?php 
+				<?php
 				$query = array("ql" => "select * order by name");
 				$ruangans = $client->get_collection('ruangans',$query);
 				$i = 0;

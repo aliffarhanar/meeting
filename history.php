@@ -53,9 +53,9 @@
 					<tr>
 						<th>NO</th>
 						<th>DATE</th>
-						<th>NAME</th>
-						<th>ID</th>
-						<th>ROOM</th>
+						<th style="width: 20%;">NAME</th>
+						<th style="width: 10%;">ID</th>
+						<th style="width: 10%;">ROOM</th>
 						<th>TIME</th>
 						<th>STATUS</th>
 						<th style="width: 5%;">PIC</th>
@@ -80,7 +80,7 @@
 							<tr>
 								<td><?=$no?></td>
 								<td><?=$booking->get('tanggal')?></td>
-								<td><?=$booking->get('name')?></td>
+								<td style="text-align: left;"><?=$booking->get('name')?></td>
 								<td><?=$booking->get('created')?></td>
 								<td><?=$ruangan->get('name')?></td>
 								<td><?=$booking->get('start').' - '.$booking->get('end')?></td>
@@ -92,7 +92,7 @@
 								$no++; 
 							} 
 						}else{
-							echo "<td colspan='6'>TIDAK ADA MEETING</td>";
+							echo "<td colspan='9'>Data Not Found</td>";
 						}
 					?>
 				</tbody>

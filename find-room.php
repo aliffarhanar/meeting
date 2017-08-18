@@ -15,7 +15,7 @@ function filter_building(obj){
 		data: dataString,
 		cache: false,
 		success: function(html) {
-			document.getElementById("list_ruangan").innerHTML = html;				
+			document.getElementById("list_ruangan").innerHTML = html;
 		}
 	});
 }
@@ -27,7 +27,7 @@ function filter_capacity(obj){
 		data: dataString,
 		cache: false,
 		success: function(html) {
-			document.getElementById("list_ruangan").innerHTML = html;				
+			document.getElementById("list_ruangan").innerHTML = html;
 		}
 	});
 }
@@ -39,7 +39,7 @@ function filter_sort(obj){
 		data: dataString,
 		cache: false,
 		success: function(html) {
-			document.getElementById("list_ruangan").innerHTML = html;				
+			document.getElementById("list_ruangan").innerHTML = html;
 		}
 	});
 }
@@ -59,7 +59,7 @@ function filter_sort(obj){
           $(".modal .modal-edit").attr('pic',pic);
         });
         $(".modal-edit").click(function(){
-		  var pic = $(this).attr('pic');          
+		  var pic = $(this).attr('pic');
           var room = $(this).attr('room');
           var data = room.split("|");
           $(".modal .modal-edit-title").html(data[0]);
@@ -70,7 +70,7 @@ function filter_sort(obj){
           $(".modal .modal-edit-foto").attr('src',data[4]);
           $(".modal .modal-edit-pic").html(pic);
         });
-	});	
+	});
 </script>
 <div class="col-md-12 row">
 	<div class="col-md-12" style="padding-top:2%;">
@@ -102,7 +102,7 @@ function filter_sort(obj){
 			$name = $gedung->get('name');
 			$uuid = $gedung->get('uuid');
 			echo "<option value=".$uuid.">".$name."</option>";
-		}		
+		}
 		?>
       </select>
     </div>
@@ -166,7 +166,7 @@ function filter_sort(obj){
 			}
 
 		}
-		
+
 		if(isset($_POST['cari'])){
 			$data = array("ql" => "select * where name ='".$_POST['cari']."'");
 			//reading data ruangan
@@ -180,9 +180,9 @@ function filter_sort(obj){
 			$listpic =array();
 			$i=0;
 			$data_pic = array("ql" => "select * where role ='staff'");
-			$pics = $client->get_collection('penggunas',$data_pic);
+			$pics = $client->get_collection('users',$data_pic);
 			//do something with the data
-			while($pics->has_next_entity()){								
+			while($pics->has_next_entity()){
 				$pic = $pics->get_next_entity();
 				$listpic[$i]["name"] = $pic->get('name');
 				$listpic[$i]["phone"] = $pic->get('phone');
@@ -198,10 +198,10 @@ function filter_sort(obj){
 				$capacity = $ruangan->get('capacity');
 				$facility = $ruangan->get('facility');
 				$location = $ruangan->get('address');
-				$foto = $ruangan->get('foto');			
+				$foto = $ruangan->get('foto');
 				for($j=0;$j<$i;$j++){
 					if(in_array($name,$listpic[$j]["room"])){
-						$roompic .="<li>".$listpic[$j]["name"]."</li>";						
+						$roompic .="<li>".$listpic[$j]["name"]."</li>";
 					}
 				}
 				$roompic .="</ul>";
@@ -228,7 +228,7 @@ function filter_sort(obj){
 					</div>
 				  </div>
 				  <!-- box find room -->
-			<?php	
+			<?php
 			}
 		}else{
 			echo "Tidak ada ruangan yang ditemukan";
@@ -279,7 +279,7 @@ function filter_sort(obj){
                 <th><img src="images/person_gear.png" alt="person and gear">&nbsp;Person in Change</th>
                 <td class="modal-pic">
                 </td>
-              </tr>				
+              </tr>
               <tr>
                 <th><span class="fa fa-map-marker"></span>&nbsp;Location</th>
                 <td class="modal-location">
@@ -355,7 +355,7 @@ function filter_sort(obj){
                 </tr>
                 <tr>
                   <th><img src="images/tools.png" alt="tool">&nbsp;Facility</th>
-                  <td>	
+                  <td>
 					<textarea class="modal-edit-facility" name="facility" >
 					</textarea>
                   </td>
@@ -425,7 +425,7 @@ function filter_sort(obj){
 		</div>
 	  </div>
 	</div>
-	
+
 	<!-- Modal -->
 	<div id="create-room" class="modal fade" role="dialog">
 	  <div class="modal-dialog" style="width: 50%;font-size: 130%;">
@@ -442,7 +442,7 @@ function filter_sort(obj){
 				<label class="col-sm-2 col-md-offset-1 frm-label">Building <span class="pull-right">:</span></label>
 				<div class="col-sm-8">
 						<select name="gedung" class="form-control">
-						<?php 
+						<?php
 						$query = array("ql" => "select * order by name");
 						$ruangans = $client->get_collection('gedungs', $query);
 						$i = 0;
@@ -450,7 +450,7 @@ function filter_sort(obj){
 							$ruangan = $ruangans->get_next_entity();
 							$name = $ruangan->get('name');
 							$uuid = $ruangan->get('uuid');
-							echo"							
+							echo"
 								  <option value='$uuid'> $name</option>
 							";
 							$i++;
@@ -516,9 +516,9 @@ function filter_sort(obj){
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       eventLimit: true, // allow "more" link when too many events
-      
+
     });
-    
+
   });
 
   $(document).ready(function() {
@@ -533,9 +533,9 @@ function filter_sort(obj){
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       eventLimit: true, // allow "more" link when too many events
-      
+
     });
-    
+
   });
 
   function closeFunction(){

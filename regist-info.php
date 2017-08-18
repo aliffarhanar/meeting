@@ -1,13 +1,13 @@
 <?php
 include_once "inc/config.php";
-				
+
 	if(isset($_GET['id'])){
 		$data = array("ql" => "select * where created=".$_GET['id']);
 		//reading data ruangan
-		$pics = $client->get_collection('penggunas',$data);
+		$pics = $client->get_collection('users',$data);
 		$pic = $pics->get_next_entity();
 		$room = $pic->get('pic');
-		
+
 	if(isset($_GET['process_edit'])){
 		$id = $_POST['username'];
 		$password = $_POST['password'];
@@ -30,7 +30,7 @@ include_once "inc/config.php";
 			"pic" => $pic1,
 			"approved" => "approved"
 		);
-		$endpoint = 'penggunas/'.$pic->get('uuid');
+		$endpoint = 'users/'.$pic->get('uuid');
 		$query_string = array();
 		$result = $client->put($endpoint, $query_string, $body);
 		if ($result->get_error()){
@@ -111,7 +111,7 @@ include_once "inc/config.php";
 		<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">PIC of <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-				<?php 
+				<?php
 					$query = array("ql" => "select * order by name");
 					$ruangans = $client->get_collection('ruangans', $query);
 					$i = 0;
@@ -133,7 +133,7 @@ include_once "inc/config.php";
 			</div>
 				<?php
 					#foreach($room as $key=> $rp){
-					#	$data = array('ql' => "select * where uuid=".$rp);		
+					#	$data = array('ql' => "select * where uuid=".$rp);
 					#	//reading data ruangan
 					#	$ruangans = $client->get_collection('ruangans',$data);
 					#	//do something with the data
@@ -158,7 +158,7 @@ include_once "inc/config.php";
 			</div>
 		</div>
 		<?php } ?>
-			
+
 </div>
 <?php if (isset($_GET['edit'])) { ?>
 	<div class="modal-footer">

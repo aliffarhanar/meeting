@@ -57,7 +57,7 @@
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
 							<div class='alert alert-success' style='text-align:center;'>
-								<h4>Selamat, pemesanan ruangan telah dilakukan, status pemesanan menunggu konfirmasi admin.</h4>
+								<h4>Selamat, pemesanan ruangan telah dilakukan, status pemesanan menunggu konfirmasi Dari PIC/Pengelola ruangan. Terima Kasih</h4>
 							</div>
 						</div>
 					</div>

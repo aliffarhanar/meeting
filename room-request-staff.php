@@ -17,13 +17,13 @@
 			if(isset($_GET['approve'])){
 				$endpoint = 'bookings/'.$_GET['approve'];
 				$query_string = array();
-				
+
 				$body = array(
 					"approved" => "approved"
 				);
-				
+
 				$result = $client->put($endpoint, $query_string, $body);
-				
+
 				if ($result->get_error()){
 					echo "
 					<div class='row'>
@@ -50,9 +50,9 @@
 			if(isset($_GET['reject'])){
 				$endpoint = 'bookings/'.$_GET['reject'];
 				$query_string = array();
-							
+
 				$result = $client->delete($endpoint, $query_string);
-				
+
 				if ($result->get_error()){
 					echo "
 					<div class='row'>
@@ -92,13 +92,13 @@
 				<tbody>
 				<?php
 					$no=1;
-						$data = array('ql' => "select * where approved='pending'");		
+						$data = array('ql' => "select * where approved='pending'");
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
 						while ($bookings->has_next_entity()) {
 							$booking = $bookings->get_next_entity();
-							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
+							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));
 							//reading data ruangan
 							$ruangans = $client->get_collection('ruangans', $data);
 							//do something with the data
@@ -115,13 +115,13 @@
 								<a href="?page=room-request-staff&approve=<?=$booking->get('name')?>" class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
 							</td>
 						</tr>
-						<?php 
-							$no++; 
-						} 
+						<?php
+							$no++;
+						}
 					}else{
 						echo "<td colspan='6'>TIDAK ADA REQEUST MEETING BARU</td>";
 					}
-				?>	
+				?>
 				</tbody>
 			</table>
 		</div>
@@ -156,13 +156,13 @@
 				<tbody>
 				<?php
 					$no=1;
-					$data = array('ql' => "select * where approved='approved'");		
+					$data = array('ql' => "select * where approved='approved'");
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
 						while ($bookings->has_next_entity()) {
 							$booking = $bookings->get_next_entity();
-							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
+							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));
 							//reading data ruangan
 							$ruangans = $client->get_collection('ruangans',$data);
 							//do something with the data
@@ -175,13 +175,13 @@
 							<td><?=$booking->get('start').' - '.$booking->get('end')?></td>
 							<td><?=$booking->get('name')?></td>
 						</tr>
-						<?php 
-							$no++; 
-						} 
+						<?php
+							$no++;
+						}
 					}else{
 						echo "<td colspan='6'>TIDAK ADA MEETING</td>";
 					}
-				?>	
+				?>
 				</tbody>
 			</table>
 		</div>
@@ -221,10 +221,10 @@
 				<tbody>
 				<?php
 					$no=1;$start="";
-					
+
 					if ($getRoom!='all') {
 						//GET UUID Ruangan
-						$filters = array('ql' => "select * where name='".$getRoom."'");		
+						$filters = array('ql' => "select * where name='".$getRoom."'");
 						//reading data ruangan
 						$getFilter = $client->get_collection('ruangans', $filters);
 						//do something with the data
@@ -243,27 +243,27 @@
 							}
 							$start = $booking->get('start');
 							$end =$booking->get('end');
-							
+
 							//FETCH PER HOUR
 							$datas = array('ql' => "select * where start='".$start."'");
 							$bookingsPerJam = $client->get_collection('bookings',$datas);
 							$skipTheStart = "";
 							while ($bookingsPerJam->has_next_entity()) {
 								$bookingJam = $bookingsPerJam->get_next_entity();
-								
-								$dataRuangan = array('ql' => "select * where uuid=".$bookingJam->get('ruangan'));		
+
+								$dataRuangan = array('ql' => "select * where uuid=".$bookingJam->get('ruangan'));
 								//reading data ruangan
 								$ruangans = $client->get_collection('ruangans',$dataRuangan);
 								//do something with the data
 								$ruangan = $ruangans->get_next_entity();
-								
-								$dataPengguna = array('ql' => "select * where uuid=".$bookingJam->get('user'));		
-								//reading data penggunas
-								$penggunas = $client->get_collection('penggunas',$dataPengguna);
+
+								$dataPengguna = array('ql' => "select * where uuid=".$bookingJam->get('user'));
+								//reading data users
+								$users = $client->get_collection('users',$dataPengguna);
 								//do something with the data
-								$pengguna = $penggunas->get_next_entity();
+								$pengguna = $users->get_next_entity();
 								$total_row = json_decode($bookingsPerJam->get_json())->count;
-								if ($skipTheStart != $bookingJam->get('start')) { // skip even members 
+								if ($skipTheStart != $bookingJam->get('start')) { // skip even members
 							?>
 							<tr>
 								<td rowspan="<?=$total_row>0?$total_row+1:1?>"><?=$start?></td>
@@ -272,19 +272,19 @@
 							<tr>
 								<td><?=$bookingJam->get('approved')=='approved'?'<i class="fa fa-check"></i>':'<i class="fa fa-question"></i>'?></td>
 								<td>
-									<?=$ruangan->get('name')?> (<?=($bookingJam->get('user')!=''?$pengguna->get('name'):'Not known user')?>)  
+									<?=$ruangan->get('name')?> (<?=($bookingJam->get('user')!=''?$pengguna->get('name'):'Not known user')?>)
 									<a href="?page=detail-request&detail=<?=$bookingJam->get('name')?>"><i class="fa fa-file-o"></i></a>
 								</td>
 							</tr>
 							<?php
 							$skipTheStart = $bookingJam->get('start');
 							}
-							$no++; 
+							$no++;
 						}
 					} else {
 						echo '<i>No event...</i>';
 					}
-				?>					
+				?>
 				</tbody>
 			</table>
 		</div>
@@ -326,13 +326,13 @@
 			events: [
 			<?php
 					$no=1;
-					$data = array('ql' => "select * where approved='approved'");		
+					$data = array('ql' => "select * where approved='approved'");
 					$bookings = $client->get_collection('bookings',$data);
 					if($bookings->has_next_entity()){
 						//do something with the data
 						while ($bookings->has_next_entity()) {
 							$booking = $bookings->get_next_entity();
-							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));		
+							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));
 							//reading data ruangan
 							$ruangans = $client->get_collection('ruangans',$data);
 							//do something with the data
@@ -347,13 +347,13 @@
 							url: '?page=room-request-staff&room=<?=$getRoom?>',
 
 						},
-						<?php 
-							$no++; 
+						<?php
+							$no++;
 						}
 					}
 				?>
 			],
 		});
-		
+
 	});
 </script>

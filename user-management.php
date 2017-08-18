@@ -28,15 +28,15 @@
 	<div class="col-md-12" style="padding-top: 2%; overflow-y: scroll; height: 200px;">
 		<?php
 			if(isset($_GET['approve'])){
-				$endpoint = 'penggunas/'.$_GET['approve'];
+				$endpoint = 'users/'.$_GET['approve'];
 				$query_string = array();
-				
+
 				$body = array(
 					"approved" => "approved"
 				);
-				
+
 				$result = $client->put($endpoint, $query_string, $body);
-				
+
 				if ($result->get_error()){
 					echo "
 					<div class='row'>
@@ -61,11 +61,11 @@
 				}
 			}
 			if(isset($_GET['reject'])){
-				$endpoint = 'penggunas/'.$_GET['reject'];
+				$endpoint = 'users/'.$_GET['reject'];
 				$query_string = array();
-							
+
 				$result = $client->delete($endpoint, $query_string);
-				
+
 				if ($result->get_error()){
 					echo "
 					<div class='row'>
@@ -106,17 +106,17 @@
 				$no=1;
 				if(isset($_GET['cari'])){
 					$data = array(
-							"ql" => "select * where approved = 'pending' 
+							"ql" => "select * where approved = 'pending'
 							AND name contains ='".$_GET['cari']."'");
 					//reading data ruangan
-					$pics = $client->get_collection('penggunas',$data);
+					$pics = $client->get_collection('users',$data);
 				}else{
 					$data = array("ql" => "select * where approved = 'pending'");
 					//reading data ruangan
-					$pics = $client->get_collection('penggunas',$data);
+					$pics = $client->get_collection('users',$data);
 				}
 				if($pics->has_next_entity()){
-					
+
 					while ($pics->has_next_entity()) {
 						$pic = $pics->get_next_entity();
 						$room = $pic->get('pic');
@@ -128,7 +128,7 @@
 						<td><?=$pic->get('role')?>
 							<?php
 								#foreach($room as $rp){
-								#	$data = array('ql' => "select * where uuid=".$rp);		
+								#	$data = array('ql' => "select * where uuid=".$rp);
 								#	//reading data ruangan
 								#	$ruangans = $client->get_collection('ruangans',$data);
 								#	//do something with the data
@@ -143,9 +143,9 @@
 							<a href="?page=user-management&approve=<?=$pic->get('name')?>"class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
 						</td>
 					</tr>
-					<?php 
+					<?php
 						$no++;
-					} 
+					}
 				}else{
 					echo "<td colspan='5'>TIDAK ADA REQEUST PIC RUANGAN</td>";
 				}
@@ -254,15 +254,15 @@
 					<?php
 					$no=1;
 					if(isset($_GET['cari1'])){
-						$data = array("ql" => 
+						$data = array("ql" =>
 									  "select * where approved = 'approved'
 									  AND name contains ='".$_GET['cari1']."'");
 						//reading data ruangan
-						$pics = $client->get_collection('penggunas',$data);
+						$pics = $client->get_collection('users',$data);
 					}else{
 						$data = array("ql" => "select * where approved = 'approved'");
 						//reading data ruangan
-						$pics = $client->get_collection('penggunas',$data);
+						$pics = $client->get_collection('users',$data);
 					}
 					while ($pics->has_next_entity()) {
 						$pic = $pics->get_next_entity();
@@ -275,7 +275,7 @@
 						<td><?=ucwords($pic->get('role'))?>
 							<?php
 								if ($room) echo '<br>'; foreach($room as $rp){
-								$data = array('ql' => "select * where uuid=".$rp);		
+								$data = array('ql' => "select * where uuid=".$rp);
 								//reading data ruangan
 								$ruangans = $client->get_collection('ruangans',$data);
 								//do something with the data
