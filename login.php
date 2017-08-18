@@ -42,7 +42,7 @@
 							<div class='row'>
 								<div class='col-md-8 col-md-offset-2'>
 									<div class='alert alert-danger' style='text-align:center;margin-bottom: 0px;'>
-										<h4>Gagal Login ".$user->get('metadata','collections','roles')." : Akun anda belum aktif.</h4>
+										<h4>Gagal Login : Akun anda belum aktif.</h4>
 									</div>
 								</div>
 							</div>";
