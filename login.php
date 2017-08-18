@@ -23,11 +23,11 @@
 		<?php
 			if(isset($_POST['login'])){
 				if($_POST['username'] == "admin" AND $_POST['password'] == "admin"){
-
-				}else{
-					if ($user = $client->login($_POST['username'], $_POST['password'])) {
-						$token = $client->get_oauth_token();
-					if ($user->get('roles') == 'admin') {
+				// 
+				// }else{
+				// 	if ($user = $client->login($_POST['username'], $_POST['password'])) {
+				// 		$token = $client->get_oauth_token();
+				// 	if ($user->get('roles') == 'admin') {
 						$_SESSION['login_user'] = "login";
 						$_SESSION['name'] = "Admin";
 						$_SESSION['role'] = "admin";
