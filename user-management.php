@@ -274,12 +274,13 @@
 						<td><?=$pic->get('name')?></td>
 						<td><?=ucwords($pic->get('role'))?>
 							<?php
-								if ($room) echo '<br>'; foreach($room as $rp){
+								if ($room&&$pic->get('role')=='staff') foreach($room as $rp){
 								$data = array('ql' => "select * where uuid=".$rp);
 								//reading data ruangan
 								$ruangans = $client->get_collection('ruangans',$data);
 								//do something with the data
 								$ruangan = $ruangans->get_next_entity();
+								echo '<br>';
 								echo '<i align="left" class="fa fa-check-square-o"></i>'.@$ruangan->get('name').'<br>';
 							}
 							?>

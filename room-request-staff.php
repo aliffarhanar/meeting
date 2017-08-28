@@ -253,13 +253,13 @@
 
 								$dataRuangan = array('ql' => "select * where uuid=".$bookingJam->get('ruangan'));
 								//reading data ruangan
-								$ruangans = $client->get_collection('ruangans',$dataRuangan);
+								$ruangans = $client->get_collection('ruangans', $dataRuangan);
 								//do something with the data
 								$ruangan = $ruangans->get_next_entity();
 
-								$dataPengguna = array('ql' => "select * where uuid=".$bookingJam->get('user'));
+								$dataPengguna = array('ql' => "select * where name='".$bookingJam->get('user')."'");
 								//reading data users
-								$users = $client->get_collection('users',$dataPengguna);
+								$users = $client->get_collection('users', $dataPengguna);
 								//do something with the data
 								$pengguna = $users->get_next_entity();
 								$total_row = json_decode($bookingsPerJam->get_json())->count;

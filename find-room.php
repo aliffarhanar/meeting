@@ -180,7 +180,7 @@ function filter_sort(obj){
 			$listpic =array();
 			$i=0;
 			$data_pic = array("ql" => "select * where role ='staff'");
-			$pics = $client->get_collection('users',$data_pic);
+			$pics = $client->get_collection('users', $data_pic);
 			//do something with the data
 			while($pics->has_next_entity()){
 				$pic = $pics->get_next_entity();
