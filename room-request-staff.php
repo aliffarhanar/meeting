@@ -197,7 +197,7 @@
 				<select name="room" onchange="location = this.value;" class="form-control" aria-describedby="sizing-addon3">
 					<option value="?page=room-request-staff"> All room </option>
 					<?php
-					$getRoom = isset($_GET['room'])?urldecode($_GET['room']):'all';
+					$getRoom = isset($_GET['room'])?urldecode($_GET['room']):'All Rooms';
 					$query = array("ql" => "select * order by name");
 					$ruangans = $client->get_collection('ruangans',$query);
 					while ($ruangans->has_next_entity()) {

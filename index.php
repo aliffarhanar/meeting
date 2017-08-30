@@ -98,7 +98,7 @@
 								$jum++;
 							}
 						}
-						
+
 						$data = array("ql" => "select * where approved = 'pending'");
 							//reading data ruangan
 						$books = $client->get_collection('bookings',$data);
@@ -178,7 +178,7 @@
 
 		<div class="col-md-10">
 			<?php
-			
+
 			if(isset($_GET['page'])) $page = $_GET['page'];
 
 			switch($page) {

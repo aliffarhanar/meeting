@@ -22,21 +22,9 @@
 		</div>
 		<?php
 			if(isset($_POST['login'])){
-				if($_POST['username'] == "admin" AND $_POST['password'] == "admin"){
-					$_SESSION['login_user'] = "login";
-					$_SESSION['name'] = "Admin";
-					$_SESSION['role'] = "admin";
-					$_SESSION['username'] = "admin";
-					$_SESSION['password'] = "admin";
-					$_SESSION['phone'] = "admin";
-					$_SESSION['email'] = "admin";
-					header("location:index.php");
-				}else{
 					if ($user = $client->login($_POST['username'], $_POST['password'])) {
 						$token = $client->get_oauth_token();
-					if ($user->get('roles') == 'admin') {
-
-					} elseif ($user->get('approved')!='approved') {
+					if (!$user->get('approved')) {
 							echo "<br>
 							<div class='row'>
 								<div class='col-md-8 col-md-offset-2'>
@@ -54,6 +42,7 @@
 							$_SESSION['phone'] = $user->get('phone');
 							$_SESSION['email'] = $user->get('email');
 							$_SESSION['pic'] = $user->get('pic');
+							$_SESSION['token'] = $token;
 							header("location:index.php");
 						}
 					}else{
@@ -67,7 +56,7 @@
 							</div>";
 					}
 				}
-			}
+
 
 			if(isset($_POST['register'])){
 				$id = $_POST['username'];
