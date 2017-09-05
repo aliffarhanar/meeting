@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	include_once "inc/config.php";
-	if(isset($_SESSION['login_user'])){
+	if(isset($_SESSION['login_user'])) {
 		header("location:index.php");
 	}
 ?>
@@ -97,6 +97,8 @@
 					</div>
 					";
 				} else {
+					include_once "inc/functions.php";
+					message_helio(login_helio()["data"]["token"],$email,"Hello Saya Developer apps nobackend","Dear, ".$name.". Please click in this link to activate your account metting apps");
 					$endpointRoles = 'roles/'.$role.'/users/'.$name;
 					$resultRoles = $client->post($endpointRoles, $query_string, array());
 					echo "

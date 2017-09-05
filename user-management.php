@@ -15,7 +15,7 @@
 					$query_string = array();
 
 					$body = array(
-						"approved" => "approved"
+						"approved" => true
 					);
 
 					$result = $client->put($endpoint, $query_string, $body);
@@ -88,12 +88,12 @@
 					$no=1;
 					if(isset($_GET['cari'])){
 						$data = array(
-								"ql" => "select * where approved = 'pending'
+								"ql" => "select * where approved = false
 								AND name contains ='".$_GET['cari']."'");
 						//reading data ruangan
 						$pics = $client->get_collection('users',$data);
 					}else{
-						$data = array("ql" => "select * where approved = 'pending'");
+						$data = array("ql" => "select * where approved = false");
 						//reading data ruangan
 						$pics = $client->get_collection('users',$data);
 					}
@@ -202,12 +202,12 @@
 						$no=1;
 						if(isset($_GET['cari1'])){
 							$data = array("ql" =>
-										  "select * where approved = 'approved'
+										  "select * where approved = true
 										  AND name contains ='".$_GET['cari1']."'");
 							//reading data ruangan
 							$pics = $client->get_collection('users', $data);
 						}else{
-							$data = array("ql" => "select * where approved = 'approved'");
+							$data = array("ql" => "select * where approved = true");
 							//reading data ruangan
 							$pics = $client->get_collection('users',$data);
 						}
@@ -233,8 +233,8 @@
 								?>
 							</td>
 							<td>
-								<a href="#!" data-id="<?=$pic->get('created')?>" class="btn btn-sm btn-primary regist"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
-								<a href="#!" data-id="<?=$pic->get('created')?>&edit=true" class="btn btn-sm btn-primary regist"><i class="fa fa-compose" aria-hidden="true"> Edit</i></a>
+								<a href="#!" data-id="<?=$pic->get('name')?>" class="btn btn-sm btn-primary regist"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+								<a href="#!" data-id="<?=$pic->get('name')?>&edit=true" class="btn btn-sm btn-primary regist"><i class="fa fa-compose" aria-hidden="true"> Edit</i></a>
 							</td>
 						</tr>
 						<?php $no++;} ?>

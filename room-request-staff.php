@@ -222,7 +222,7 @@
 				<?php
 					$no=1;$start="";
 
-					if ($getRoom!='all') {
+					if ($getRoom!='All Rooms') {
 						//GET UUID Ruangan
 						$filters = array('ql' => "select * where name='".$getRoom."'");
 						//reading data ruangan

@@ -1,12 +1,15 @@
 <?php
-include_once "inc/config.php";
-
+	session_start();
+	include_once "inc/config.php";
 	if(isset($_GET['id'])){
-		$data = array("ql" => "select * where created=".$_GET['id']);
+		$data = array("ql" => "select * where name='".$_GET['id']."'");
 		//reading data ruangan
-		$pics = $client->get_collection('users',$data);
+		$pics = $client->get_collection('users', $data);
 		$pic = $pics->get_next_entity();
-		$room = $pic->get('pic');
+		$role = $pic->get('role');
+		if ($role=="staff"){
+			$room = $pic->get('pic');
+		}
 
 	if(isset($_GET['process_edit'])){
 		$id = $_POST['username'];
@@ -28,7 +31,7 @@ include_once "inc/config.php";
 			"role" => $role,
 			"email" => $email,
 			"pic" => $pic1,
-			"approved" => "approved"
+			"approved" => true
 		);
 		$endpoint = 'users/'.$pic->get('uuid');
 		$query_string = array();
