@@ -25,7 +25,7 @@
 						<div class='row'>
 							<div class='col-md-8 col-md-offset-2'>
 								<div class='alert alert-danger' style='text-align:center;'>
-									<h4>Gagal Melakukan Approval,".$_GET['approved']." belum di approve.</h4>
+									<h4>Gagal Melakukan Approval,".$_GET['approve']." belum di approve.</h4>
 								</div>
 							</div>
 						</div>
