@@ -15,7 +15,7 @@
 					$query_string = array();
 
 					$body = array(
-						"approved" => true
+						"approved" => true,
 					);
 
 					$result = $client->put($endpoint, $query_string, $body);
@@ -121,8 +121,8 @@
 							</td>
 							<td>
 								<a href="#!" data-id="<?=$pic->get('created')?>" class="btn btn-sm btn-primary regist"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
-								<a href="?page=user-management&reject=<?=$pic->get('name')?>" class="btn btn-sm btn-danger" ><i class="fa fa-close" aria-hidden="true"></i></a>
-								<a href="?page=user-management&approve=<?=$pic->get('name')?>"class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
+								<a href="?page=user-management&reject=<?=$pic->get('username')?>" class="btn btn-sm btn-danger" ><i class="fa fa-close" aria-hidden="true"></i></a>
+								<a href="?page=user-management&approve=<?=$pic->get('username')?>"class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
 							</td>
 						</tr>
 						<?php
