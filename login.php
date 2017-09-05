@@ -78,7 +78,7 @@
 					"email" => $email,
 					"password" => $password,
 					"tel" => $phone,
-					"approved" => "pending",
+					"approved" => false,
 					"role" => $role,
 				);
 
