@@ -65,6 +65,13 @@
 				$phone = $_POST['phone'];
 				$role = $_POST['role'];
 				$email = $_POST['email'];
+
+				if ($role=='user') {
+					$generate = strtotime(date("Ymdhis"));
+				} else {
+					$generate = '';
+				}
+
 				$pic=array();
 				if (isset($_POST['room'])) for($i=0;$i<count($_POST['room']);$i++){
 					if(isset($_POST['room'][$i])){
@@ -80,6 +87,7 @@
 					"tel" => $phone,
 					"approved" => false,
 					"role" => $role,
+					"activation_code" => $generate,
 				);
 
 				$endpointUsers = 'users';
@@ -97,8 +105,13 @@
 					</div>
 					";
 				} else {
-					include_once "inc/functions.php";
-					message_helio(login_helio()["data"]["token"],$email,"Hello Saya Developer apps nobackend","Dear, ".$name.". Please click in this link to activate your account metting apps");
+					if ($role=='user') {
+						include_once "inc/functions.php";
+						$subject = "Verifikasi Akun Meetingrooms";
+						$body = "Hello, ".$name.". Berikut klik link berikut untuk aktifasi akun anda di Meetingrooms. <br /> "
+										.base_url()."confirmation.php?activation_code=".$generate;
+						message_helio(login_helio()["data"]["token"],$email,$subject,$body);
+					}
 					$endpointRoles = 'roles/'.$role.'/users/'.$name;
 					$resultRoles = $client->post($endpointRoles, $query_string, array());
 					echo "
