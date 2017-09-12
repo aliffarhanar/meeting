@@ -16,9 +16,19 @@ if ($activation_code == $user->get('activation_code')) {
   $endpoint = 'users/'.$user->get('username');
   $query_string = array();
   $result = $client->put($endpoint, $query_string, $body);
+  var_dump($result);
   if ($result->get_error()){
     echo "Terjadi Kesalahan.";
   } else {
-    header("location:login.php");
+    $_SESSION['login_user'] = "login";
+    $_SESSION['name'] = $user->get('name');
+    $_SESSION['role'] = $user->get('role');
+    $_SESSION['username'] =$user->get('username');
+    $_SESSION['password'] = $user->get('password');
+    $_SESSION['phone'] = $user->get('phone');
+    $_SESSION['email'] = $user->get('email');
+    $_SESSION['pic'] = $user->get('pic');
+    $_SESSION['token'] = $token;
+    header("location:index.php");
   }
 }

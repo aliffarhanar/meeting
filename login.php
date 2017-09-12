@@ -108,7 +108,7 @@
 					if ($role=='user') {
 						include_once "inc/functions.php";
 						$subject = "Verifikasi Akun Meetingrooms";
-						$body = "Hello, ".$name.". Berikut klik link berikut untuk aktifasi akun anda di Meetingrooms. <br /> "
+						$body = "Hello, ".$name.". Klik link berikut untuk aktifasi akun anda di Meetingrooms. <br /> "
 										.base_url()."confirmation.php?activation_code=".$generate;
 						message_helio(login_helio()["data"]["token"],$email,$subject,$body);
 					}

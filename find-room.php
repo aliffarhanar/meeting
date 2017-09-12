@@ -15,7 +15,7 @@ function filter_building(obj){
 		data: dataString,
 		cache: false,
 		success: function(html) {
-			document.getElementById("list_ruangan").innerHTML = html;
+			document.getElementById("list_ruangan").innerHTML = html;			
 		}
 	});
 }
@@ -44,7 +44,7 @@ function filter_sort(obj){
 	});
 }
 	$(function() {
-        $(".modal-detail").click(function(){
+        $(document).on("click",".modal-detail",function(){
           var pic = $(this).attr('pic');
           var room = $(this).attr('room');
           var data = room.split("|");
@@ -58,7 +58,7 @@ function filter_sort(obj){
           $(".modal .modal-edit").attr('room',room);
           $(".modal .modal-edit").attr('pic',pic);
         });
-        $(".modal-edit").click(function(){
+        $(document).on("click",".modal-edit",function(){
 		  var pic = $(this).attr('pic');
           var room = $(this).attr('room');
           var data = room.split("|");

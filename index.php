@@ -155,7 +155,7 @@
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='history-admin'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='room-request-staff'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='user-management'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
-						<li class=""><a style="text-align: right; font-family: inherit;" href="#">Settings </a></li>
+						<li class="<?=isset($_GET['page'])&&$_GET['page']=='setting'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=setting">Settings </a></li>
 				<?php
 					}else if($_SESSION['role'] == "staff"){
 						$page = "dashboard";
@@ -194,6 +194,7 @@
 				case "edit-role":$include = "edit-role.php";break;
 				case "user-booking":$include = "user-booking.php";break;
 				case "detail-request":$include = "detail-request.php";break;
+				case "setting":$include = "setting.php";break;
 				default : $include = "find-room.php";
 			}
 			include_once $include;

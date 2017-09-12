@@ -16,9 +16,10 @@
 					"phone" => $phone,
 					"email" => $email
 				);
-				$endpoint = 'picruangan/'.$name;
+				$endpoint = 'users/'.$name;
 				$query_string = array();
 				$result = $client->put($endpoint, $query_string, $body);
+				
 				if ($result->get_error()){
 					echo "
 					<div class='row'>
@@ -30,12 +31,12 @@
 					</div>
 					";
 				} else {
-					
+
 					$_SESSION['username'] =$username;
-					$_SESSION['password'] = $password;	
-					$_SESSION['phone'] = $phone;	
-					$_SESSION['email'] = $email;	
-					
+					$_SESSION['password'] = $password;
+					$_SESSION['phone'] = $phone;
+					$_SESSION['email'] = $email;
+
 					echo "
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
@@ -84,6 +85,6 @@
 			  <button type="submit" name="edit" class="btn btn-primary">Edit and Save</button>
 			</div>
 		  </div>
-		</form>		
+		</form>
 	</div>
 </div>

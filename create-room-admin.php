@@ -34,11 +34,12 @@ if (isset($_POST['create-room'])) {
 		$curl = curl_init();
 		$filename = basename($_FILES["foto"]["name"]);
 		$contentType = $_FILES["foto"]["type"];
+		$token = isset($_SESSION['token'])?'?access_token='.$_SESSION['token']:'';
 		$tmpfile = $_FILES['foto']['tmp_name'];
 		$file = curl_file_create($tmpfile, $contentType, $filename);
 		$post = array('file' =>  $file);
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://api.nobackend.id/nobackend.meeting/meeting/ruangans/".$name,
+		  CURLOPT_URL => "https://api.nobackend.id/nobackend.meeting/meeting/ruangans/".$name.$token,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => "",
 		  CURLOPT_MAXREDIRS => 10,
@@ -70,7 +71,6 @@ if (isset($_POST['create-room'])) {
 	$endpoint = 'ruangans';
 	$query_string = array();
 	$result = $client->post($endpoint, $query_string, $body);
-	session_start();
 	if ($result->get_error() ){
 		$_SESSION['notif'] = "<br>
 							<div class='row'>

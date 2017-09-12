@@ -91,7 +91,7 @@
 							<?php 
 								$no++; 
 							} 
-						}else{
+						}else{							
 							echo "<td colspan='9'>Data Not Found</td>";
 						}
 					?>
