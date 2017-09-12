@@ -39,7 +39,7 @@
 							$_SESSION['role'] = $user->get('role');
 							$_SESSION['username'] =$user->get('username');
 							$_SESSION['password'] = $user->get('password');
-							$_SESSION['phone'] = $user->get('phone');
+							$_SESSION['phone'] = $user->get('tel');
 							$_SESSION['email'] = $user->get('email');
 							$_SESSION['pic'] = $user->get('pic');
 							$_SESSION['token'] = $token;
