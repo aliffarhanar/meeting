@@ -37,8 +37,8 @@
 							$_SESSION['login_user'] = "login";
 							$_SESSION['name'] = $user->get('name');
 							$_SESSION['role'] = $user->get('role');
-							$_SESSION['username'] =$user->get('username');
-							$_SESSION['password'] = $user->get('password');
+							$_SESSION['username'] =$_POST['username'];
+							$_SESSION['password'] = $_POST['password'];
 							$_SESSION['phone'] = $user->get('tel');
 							$_SESSION['email'] = $user->get('email');
 							$_SESSION['pic'] = $user->get('pic');
