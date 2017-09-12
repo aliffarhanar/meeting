@@ -83,16 +83,16 @@
 						$notif_booking = "";
 						if ($_SESSION['role'] == "admin") {
 							$notif_user = "";
-							$data = array("ql" => "select * where approved = 'pending'");
+							$data = array("ql" => "select * where approved = false");
 								//reading data ruangan
-							$pics = $client->get_collection('picruangans',$data);
+							$pics = $client->get_collection('users',$data);
 							while ($pics->has_next_entity()) {
 								$pic = $pics->get_next_entity();
 								$notif_user .= '
 									<li>
 										<a href="?page=user-management">
 											<span class="glyphicon glyphicon-user" style="color: grey;"></span>
-											&nbsp;'.$pic->get('name').' meminta permintaan PIC ruangan
+											&nbsp;'.$pic->get('name').' meminta aktivasi akun
 										</a>
 									</li>
 									<li role="separator" class="divider"></li>
@@ -100,27 +100,29 @@
 								$jum++;
 							}
 						}
-
-						$data = array("ql" => "select * where approved = 'pending'");
-							//reading data ruangan
-						$books = $client->get_collection('bookings',$data);
-						while ($books->has_next_entity()) {
-							$book = $books->get_next_entity();
-							$data_r = array("ql" => "select * where uuid = '".$book->get('ruangan')."'");
+						if ($_SESSION['role'] == "admin" OR $_SESSION['role'] == "staff") {
+							$data = array("ql" => "select * where approved = 'pending'");
 								//reading data ruangan
-							$ruangans = $client->get_collection('ruangans',$data_r);
-							$ruangan = $ruangans->get_next_entity();
-							if (@$_SESSION['pic']) if(in_array(@$ruangan->get('name'), @$_SESSION['pic'])){
-								$notif_booking .= '
-									<li>
-										<a href="?page=room-request-staff">
-											<span class="glyphicon glyphicon-calendar" style="color: grey;"></span>
-											&nbsp;'.$book->get('name').' meminta booking ruangan.
-										</a>
-									</li>
-									<li role="separator" class="divider"></li>
-								';
-								$jum++;
+							$books = $client->get_collection('bookings',$data);
+							while ($books->has_next_entity()) {
+								$book = $books->get_next_entity();
+								$data_r = array("ql" => "select * where uuid = '".$book->get('ruangan')."'");
+									//reading data ruangan
+								$ruangans = $client->get_collection('ruangans',$data_r);
+								$ruangan = $ruangans->get_next_entity();
+								$listpic = isset($_SESSION['pic'])?$_SESSION['pic']:array();
+								if(in_array(@$ruangan->get('name'), $listpic) OR $_SESSION['role'] == "admin"){
+									$notif_booking .= '
+										<li>
+											<a href="?page=room-request-staff">
+												<span class="glyphicon glyphicon-calendar" style="color: grey;"></span>
+												&nbsp;'.$book->get('name').' meminta booking ruangan.
+											</a>
+										</li>
+										<li role="separator" class="divider"></li>
+									';
+									$jum++;
+								}
 							}
 						}
 						?>
@@ -130,7 +132,8 @@
 					</a>
 					<ul class="dropdown-menu">
 						<?php
-							echo $notif_booking;
+							echo $_SESSION['role'] == "staff"?$notif_booking:'';
+							echo $_SESSION['role'] == "admin"?$notif_booking:'';
 							echo $_SESSION['role'] == "admin"?$notif_user:'';
 						?>
 					</ul>

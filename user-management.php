@@ -120,7 +120,7 @@
 								?>
 							</td>
 							<td>
-								<a href="#!" data-id="<?=$pic->get('created')?>" class="btn btn-sm btn-primary regist"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+								<a href="#!" data-id="<?=$pic->get('name')?>" class="btn btn-sm btn-primary regist"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
 								<a href="?page=user-management&reject=<?=$pic->get('username')?>" class="btn btn-sm btn-danger" ><i class="fa fa-close" aria-hidden="true"></i></a>
 								<a href="?page=user-management&approve=<?=$pic->get('username')?>"class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
 							</td>
@@ -186,7 +186,7 @@
 			<h4>All Account</h4>
 			<hr style="border-color: black;">
 		</div>
-		<div class="col-md-12" style="padding-top: 2%; overflow-y: hidden; height: 200px;">
+		<div class="col-md-12" style="padding-top: 2%; overflow-y: hidden; height: auto;">
 				<table id="table-account" class="display compact" cellspacing="0" width="100%">
 					<thead>
 						<tr>

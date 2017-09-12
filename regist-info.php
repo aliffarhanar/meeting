@@ -9,28 +9,32 @@
 		$role = $pic->get('role');
 		if ($role=="staff"){
 			$room = $pic->get('pic');
+			if($room == ""){
+				$room = array();
+			}
+		}else{
+			$room = array();
 		}
 
 	if(isset($_GET['process_edit'])){
 		$id = $_POST['username'];
-		$password = $_POST['password'];
 		$name = $_POST['name'];
 		$phone = $_POST['phone'];
 		$email = $_POST['email'];
 		$role = $pic->get('role')=='user'?$_POST['role']:'staff';
-		$pic1 = array();
-		if (isset($_POST['room'])) for($i=0;$i<count($_POST['room']);$i++){
-			if(isset($_POST['room'][$i])){
-				array_push($pic1,$_POST['room'][$i]);
+		$pic_room = array();
+		if (isset($_POST['room'])){
+			for($i=0;$i<=count($_POST['room']);$i++){
+				if(isset($_POST['room'][$i])){
+					array_push($pic_room,$_POST['room'][$i]);
+				}
 			}
 		}
 		$body = array(
-			"password" => $password,
-			"username" => $id,
 			"phone" => $phone,
 			"role" => $role,
 			"email" => $email,
-			"pic" => $pic1,
+			"pic" => $pic_room,
 			"approved" => true
 		);
 		$endpoint = 'users/'.$pic->get('uuid');
@@ -72,13 +76,7 @@
 		<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Username <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-				<input type="text" name="username" class="form-control" placeholder="Username" value="<?=$pic->get('username')?>">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">Password <span class="pull-right">:</span></label>
-			<div class="col-sm-8">
-				<input type="password" name="password" class="form-control" placeholder="Password" value="<?=$pic->get('password')?>">
+				<input type="text" name="username" class="form-control" placeholder="Username" value="<?=$pic->get('username')?>" readonly>
 			</div>
 		</div>
 		<div class="form-group">
@@ -90,7 +88,7 @@
 		<div class="form-group">
 			<label class="col-sm-2 col-md-offset-1 frm-label">Phone <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-				<input type="text" name="phone" class="form-control" placeholder="Active Phone Number" value="<?=$pic->get('phone')?>">
+				<input type="text" name="phone" class="form-control" placeholder="Active Phone Number" value="<?=$pic->get('tel')?>">
 			</div>
 		</div>
 		<div class="form-group">
@@ -165,7 +163,7 @@
 </div>
 <?php if (isset($_GET['edit'])) { ?>
 	<div class="modal-footer">
-		<button type="submit" name="edit" onClick="updatedata(<?=$_GET['id']?>)" class="btn btn-primary text-center">Save</button>
+		<button type="submit" name="edit" onClick="updatedata('<?=$_GET['id']?>')" class="btn btn-primary text-center">Save</button>
 	</div>
 	<div id="info-update"></div>
 <?php } ?>
@@ -192,7 +190,7 @@
            type: "POST",
            url: "regist-info.php?process_edit=true&id="+id,
            data: data
-        }).done(function( data ) {
+        }).done(function( data ) {			
           $('#info-update').html(data);
         });
     }

@@ -78,17 +78,31 @@
 						array_push($pic,$_POST['room'][$i]);
 					}
 				}
-
-				$bodyToUsers = array(
-					"username" => $id,
-					"name" => $name,
-					"email" => $email,
-					"password" => $password,
-					"tel" => $phone,
-					"approved" => false,
-					"role" => $role,
-					"activation_code" => $generate,
-				);
+				
+				if($role == "staff"){
+					$bodyToUsers = array(
+						"username" => $id,
+						"name" => $name,
+						"email" => $email,
+						"password" => $password,
+						"tel" => $phone,
+						"approved" => false,
+						"role" => $role,
+						"pic" => array(),
+						"activation_code" => $generate,
+					);
+				}else{
+					$bodyToUsers = array(
+						"username" => $id,
+						"name" => $name,
+						"email" => $email,
+						"password" => $password,
+						"tel" => $phone,
+						"approved" => false,
+						"role" => $role,
+						"activation_code" => $generate,
+					);
+				}
 
 				$endpointUsers = 'users';
 				$query_string = array();
