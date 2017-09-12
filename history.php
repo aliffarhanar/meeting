@@ -43,7 +43,7 @@
 						</div>
 					</div>
 					";
-					echo '<meta http-equiv="refresh" content="1; url=?page=history">';
+					echo '<meta http-equiv="refresh" content="2; url=?page=history">';
 				}				
 			}
 		?>
