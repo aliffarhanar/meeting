@@ -1,5 +1,6 @@
 <?php
-if ($_GET['delete']) {
+session_start();
+if (isset($_GET['delete'])) {
 	include_once "inc/config.php";
 	$endpoint = 'ruangans/'.$_GET['delete'];
 	$query_string = array();
@@ -65,7 +66,7 @@ if (isset($_POST['create-room'])) {
 		"name" => $_POST['name'],
 		"gedung" => $_POST['gedung'],
 		"address" => $_POST['address'],
-		"capacity" => $_POST['capacity'],
+		"capacity" => (int)$_POST['capacity'],
 		"facility" => $_POST['facility'],
 	);
 	$endpoint = 'ruangans';
@@ -80,6 +81,7 @@ if (isset($_POST['create-room'])) {
 									</div>
 								</div>
 							</div>";
+							var_dump($client);
 		header("location:index.php?page=find-room");
 	} elseif (!upload_foto($_POST['name'])) {
 		$_SESSION['notif'] = "<br>
@@ -102,5 +104,5 @@ if (isset($_POST['create-room'])) {
 			</div>";
 		header("location:index.php?page=find-room");
 	}
-	
+	echo $_SESSION['notif'];
 }

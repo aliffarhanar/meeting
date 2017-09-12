@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 if (isset($_POST)) {
 	// function upload_foto($name) {
 // 		$curl = curl_init();

@@ -190,7 +190,7 @@ function filter_sort(obj){
 				$i++;
 			}
 
-			while ($ruangans->has_next_entity()) {
+			while ($ruangans->has_next_entity()) {				
 				$roompic = "<ul>";
 				$ruangan = $ruangans->get_next_entity();
 				$name = $ruangan->get('name');
