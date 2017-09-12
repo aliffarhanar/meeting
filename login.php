@@ -112,7 +112,7 @@
 										.base_url()."confirmation.php?activation_code=".$generate;
 						message_helio(login_helio()["data"]["token"],$email,$subject,$body);
 					}
-					$endpointRoles = 'roles/'.$role.'/users/'.$name;
+					$endpointRoles = 'roles/'.$role.'/users/'.$id;
 					$resultRoles = $client->post($endpointRoles, $query_string, array());
 					echo "
 					<br>

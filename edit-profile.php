@@ -13,13 +13,13 @@
 				$body = array(
 					"username" => $username,
 					"password" => $password,
-					"phone" => $phone,
+					"tel" => $phone,
 					"email" => $email
 				);
-				$endpoint = 'users/'.$name;
+				$endpoint = 'users/'.$username;
 				$query_string = array();
 				$result = $client->put($endpoint, $query_string, $body);
-				
+
 				if ($result->get_error()){
 					echo "
 					<div class='row'>
