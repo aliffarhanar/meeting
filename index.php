@@ -157,7 +157,7 @@
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='history-admin'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='room-request-staff'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='user-management'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
-						<li class="<?=isset($_GET['page'])&&$_GET['page']=='setting'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=setting">Settings </a></li>
+						<li class="<?=isset($_GET['page'])&&$_GET['page']=='setting'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="">Settings </a></li>
 				<?php
 					}else if($_SESSION['role'] == "staff"){
 						$page = "dashboard";
