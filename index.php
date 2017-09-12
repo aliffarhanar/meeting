@@ -73,6 +73,8 @@
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#"><img src="images/logo-title.png" width="200px"></a>
+				<a class="navbar-brand" href="#"><img src="images/logo-nobackend.png" height="50px"></a>
+				<a class="navbar-brand" href="#"><img src="images/logo-playcourt.png" style="bottom:0;" height="27px"></a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">

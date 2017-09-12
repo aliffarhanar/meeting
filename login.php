@@ -148,10 +148,18 @@
 		  </div>
 		</form>
 	</div>
-	<div class="col-md-6 col-md-offset-2" style="color:#f7f7f7;opacity:0.7">
+	<div class="col-md-8 col-md-offset-2" style="color:#f7f7f7;opacity:0.7">
 		<div class="col-md-6">
 			<h4>Powered By :</h4>
-			<h2 style="margin-left:50%;">nobackend.id</h2>
+			<div style="display:inline-table;">
+				<img src="images/logo-nobackend.png" width="200px">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<h4>Supported By :</h4>
+			<div style="display:inline-table;">
+				<img src="images/logo-playcourt.png" width="200px">
+			</div>
 		</div>
 	</div>
 </div>
