@@ -110,8 +110,7 @@
 									//reading data ruangan
 								$ruangans = $client->get_collection('ruangans',$data_r);
 								$ruangan = $ruangans->get_next_entity();
-								$listpic = isset($_SESSION['pic'])?$_SESSION['pic']:array();
-								if(in_array(@$ruangan->get('name'), $listpic) OR $_SESSION['role'] == "admin"){
+								if(in_array(@$ruangan->get('uuid'), $_SESSION['pic']) OR $_SESSION['role'] == "admin"){
 									$notif_booking .= '
 										<li>
 											<a href="?page=room-request-staff">
