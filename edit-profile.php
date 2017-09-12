@@ -6,20 +6,18 @@
 		<?php
 			if(isset($_POST['edit'])){
 				$username = $_POST['username'];
-				$password = $_POST['password'];
+				$newpassword = $_POST['newpassword'];
+				$oldpassword = $_POST['oldpassword'];
 				$name = $_POST['name'];
 				$phone = $_POST['phone'];
 				$email = $_POST['email'];
 				$body = array(
-					"username" => $username,
-					"password" => $password,
 					"tel" => $phone,
 					"email" => $email
 				);
 				$endpoint = 'users/'.$username;
 				$query_string = array();
 				$result = $client->put($endpoint, $query_string, $body);
-
 				if ($result->get_error()){
 					echo "
 					<div class='row'>
@@ -31,9 +29,18 @@
 					</div>
 					";
 				} else {
+					if($newpassword != ""){
+						$body = array(
+							"newpassword" => $newpassword,
+							"oldpassword" => $oldpassword
+						);
+						$endpoint = 'users/'.$username.'/password';
+						$query_string = array();
+						$result = $client->put($endpoint, $query_string, $body);
+					}
 
 					$_SESSION['username'] =$username;
-					$_SESSION['password'] = $password;
+					$_SESSION['password'] = $newpassword;
 					$_SESSION['phone'] = $phone;
 					$_SESSION['email'] = $email;
 
@@ -51,31 +58,37 @@
 		?>
 		<form class="form-horizontal col-md-8" style="margin-left:-6%" action="" method="post">
 		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">username <span class="pull-right">:</span></label>
+			<label class="col-sm-3 col-md-offset-1 frm-label">username <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
-			  <input type="text" name="username" class="form-control" placeholder="username" value="<?php echo $_SESSION['username']; ?>">
+			  <input type="text" name="username" class="form-control" placeholder="username" value="<?php echo $_SESSION['username']; ?>" readonly>
 			</div>
 		  </div>
 		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">Password <span class="pull-right">:</span></label>
-			<div class="col-sm-8">
-			  <input type="text" name="password" class="form-control" placeholder="Password" value="<?php echo $_SESSION['password']; ?>" readonly>
-			</div>
-		  </div>
-		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">Name <span class="pull-right">:</span></label>
+			<label class="col-sm-3 col-md-offset-1 frm-label">Name <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
 			  <input type="text" name="name" class="form-control" placeholder="Full Name" value="<?php echo $_SESSION['name']; ?>" readonly>
 			</div>
 		  </div>
 		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">Phone <span class="pull-right">:</span></label>
+			<label class="col-sm-3 col-md-offset-1 frm-label">New Password <span class="pull-right">:</span></label>
+			<div class="col-sm-8">
+			  <input type="text" name="newpassword" class="form-control" placeholder="Password" >
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label class="col-sm-3 col-md-offset-1 frm-label">Old Password <span class="pull-right">:</span></label>
+			<div class="col-sm-8">
+			  <input type="text" name="oldpassword" class="form-control" placeholder="Password" >
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label class="col-sm-3 col-md-offset-1 frm-label">Phone <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
 			  <input type="text" name="phone" class="form-control" placeholder="Active Phone Number" value="<?php echo $_SESSION['phone']; ?>">
 			</div>
 		  </div>
 		  <div class="form-group">
-			<label class="col-sm-2 col-md-offset-1 frm-label">Email <span class="pull-right">:</span></label>
+			<label class="col-sm-3 col-md-offset-1 frm-label">Email <span class="pull-right">:</span></label>
 			<div class="col-sm-8">
 			  <input type="email" name="email" class="form-control" placeholder="Email Active" value="<?php echo $_SESSION['email']; ?>">
 			</div>
