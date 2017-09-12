@@ -153,7 +153,7 @@
 					if($_SESSION['role'] == "admin"){
 						$page = "room-request-staff";
 				?>
-						<li class="<?=!isset($_GET['page'])||$_GET['page']=='find-room'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=find-room">Manage Building & Room </a></li>
+						<li class="<?=!isset($_GET['page'])||$_GET['page']=='manage-room'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=manage-room">Manage Building & Room </a></li>
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='history-admin'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=history-admin">History</a></li>
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='room-request-staff'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=room-request-staff">Room Request </a></li>
 						<li class="<?=isset($_GET['page'])&&$_GET['page']=='user-management'?'active':''?>"><a style="text-align: right; font-family: inherit;" href="?page=user-management">User Management </a></li>
@@ -189,6 +189,7 @@
 				case "history":$include = "history.php";break;
 				case "history-admin":$include = "history_admin.php";break;
 				case "edit-request":$include = "edit_request.php";break;
+				case "manage-room":$include = "find-room-admin.php";break;
 				case "find-room":$include = "find-room.php";break;
 				case "edit-request-staff":$include = "edit-request-staff.php";break;
 				case "room-request-staff":$include = "room-request-staff.php";break;

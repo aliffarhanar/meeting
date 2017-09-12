@@ -75,6 +75,10 @@ function filter_sort(obj){
 <div class="col-md-12 row">
 	<div class="col-md-12" style="padding-top:2%;">
 		<div class="col-md-3">
+			<?php if($_SESSION['role'] == "admin"){ ?>
+				<a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#create-building"><i class="fa fa-plus"></i> Add Building</a>
+				<a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#create-room"><i class="fa fa-plus"></i> Add Room</a>
+			<?php } ?>
 		</div>
 		<div class="col-md-3">
 		<form action="" method="post">
@@ -380,6 +384,124 @@ function filter_sort(obj){
 
 </div>
 
+	<?php if($_SESSION['role'] == "admin"){ ?>
+	<!-- Modal -->
+	<div id="create-building" class="modal fade" role="dialog">
+	  <div class="modal-dialog" style="width: 50%;margin-top: 10%;font-size: 130%;">
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+			<h4 class="modal-title">Add Building By Admin</h4>
+		  </div>
+		  <div class="modal-body">
+			<form class="form-horizontal" action="create-building-admin.php" enctype="multipart/form-data" method="post">
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Building <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="text" name="name" required class="form-control" placeholder="Name">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Address <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <textarea name="address" required class="form-control" placeholder="Address"> </textarea>
+				</div>
+			  </div>
+			  <!--<div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Picture <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="file" name="foto" required class="form-control">
+				  <p class="help-block">Maksimal ukuran file 500kb.</p>
+				</div>
+			  </div> -->
+			  <div class="form-group">
+				<div class="col-sm-12" style="margin-top:5%;text-align:center">
+				  <button type="submit" name="register" class="btn btn-primary">Submit</button>
+				</div>
+			  </div>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<!-- Modal -->
+	<div id="create-room" class="modal fade" role="dialog">
+	  <div class="modal-dialog" style="width: 50%;font-size: 130%;">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+			<h4 class="modal-title">Add Room By Admin</h4>
+		  </div>
+		  <div class="modal-body">
+			<form class="form-horizontal" action="create-room-admin.php" enctype="multipart/form-data" method="post">
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Building <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+						<select name="gedung" class="form-control">
+						<?php
+						$query = array("ql" => "select * order by name");
+						$ruangans = $client->get_collection('gedungs', $query);
+						$i = 0;
+						while ($ruangans->has_next_entity()) {
+							$ruangan = $ruangans->get_next_entity();
+							$name = $ruangan->get('name');
+							$uuid = $ruangan->get('uuid');
+							echo"
+								  <option value='$uuid'> $name</option>
+							";
+							$i++;
+						}
+						?>
+						</select>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Name <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="text" name="name" required class="form-control" placeholder="Name">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Address <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <textarea name="address" required class="form-control" placeholder="Address"> </textarea>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Capacity <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="number" name="capacity" min="0" required class="form-control" placeholder="Capacity">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Facility <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="text" name="facility" required class="form-control" placeholder="E.g Proyektor (1), White Board(3)">
+				  <p class="help-block">Pisahkan menggunakan koma</p>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-2 col-md-offset-1 frm-label">Picture <span class="pull-right">:</span></label>
+				<div class="col-sm-8">
+				  <input type="file" name="foto" required class="form-control">
+				  <p class="help-block">Maksimal ukuran file 500kb.</p>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<div class="col-sm-12" style="margin-top:5%;text-align:center">
+				  <button type="submit" name="create-room" class="btn btn-primary">Submit</button>
+				</div>
+			  </div>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<?php } ?>
 <script>
 
   $(document).ready(function() {
