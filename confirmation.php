@@ -1,6 +1,7 @@
 <?php
 if(!isset($_GET['activation_code'])){
-  header("location:login.php");
+  // header("location:login.php");
+  echo '<meta http-equiv="refresh" content="0; url=\'http://meetingrooms.apps.playcourt.id/login.php\'" />';
 }
 include_once "inc/config.php";
 
