@@ -16,7 +16,7 @@ if ($activation_code == $user->get('activation_code')) {
   $endpoint = 'users/'.$user->get('username');
   $query_string = array();
   $result = $client->put($endpoint, $query_string, $body);
-  var_dump($result);
+  // var_dump($result);
   if ($result->get_error()){
     echo "Terjadi Kesalahan.";
   } else {
@@ -29,6 +29,7 @@ if ($activation_code == $user->get('activation_code')) {
     $_SESSION['email'] = $user->get('email');
     $_SESSION['pic'] = $user->get('pic');
     $_SESSION['token'] = $token;
+    // header("location:login.php");
+    echo '<meta http-equiv="refresh" content="0; url=\'http://meetingrooms.apps.playcourt.id/login.php\'" />';
   }
 }
-<meta http-equiv="refresh" content="0; url='http://meetingrooms.apps.playcourt.id/login.php'" />
