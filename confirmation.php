@@ -29,6 +29,6 @@ if ($activation_code == $user->get('activation_code')) {
     $_SESSION['email'] = $user->get('email');
     $_SESSION['pic'] = $user->get('pic');
     $_SESSION['token'] = $token;
-    header("location:index.php");
   }
 }
+<meta http-equiv="refresh" content="0; url='http://meetingrooms.apps.playcourt.id/login.php'" />
