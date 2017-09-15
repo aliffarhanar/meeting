@@ -335,7 +335,7 @@ function filter_sort(obj){
 
           </div><br>
           <!-- end section carousel -->
-          <div id="kalendar" style="background-color: white;"></div>
+          <div id="calendar-user" style="background-color: white;"></div>
         </div>
         <div class="table-responsive col-md-6" style="overflow-y: scroll;">
           <style type="text/css" media="screen">
@@ -397,10 +397,6 @@ function filter_sort(obj){
 
     });
 
-  });
-
-  $(document).ready(function() {
-
     $('#kalendar').fullCalendar({
       header: {
         left: 'prev',
@@ -413,6 +409,45 @@ function filter_sort(obj){
       eventLimit: true, // allow "more" link when too many events
 
     });
+	$('#calendar-user').fullCalendar({
+		header: {
+			left: 'prev month',
+			center: 'title',
+			right: 'today next',
+		},
+		navLinks: true, // can click day/week names to navigate views
+		eventLimit: true, // allow "more" link when too many events
+		events: [
+		<?php
+				$no=1;
+				$data = array('ql' => "select * where approved='approved'");
+				$bookings = $client->get_collection('bookings',$data);
+				if($bookings->has_next_entity()){
+					//do something with the data
+					while ($bookings->has_next_entity()) {
+						$booking = $bookings->get_next_entity();
+						$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));
+						//reading data ruangan
+						$ruangans = $client->get_collection('ruangans',$data);
+						//do something with the data
+						$ruangan = $ruangans->get_next_entity();
+						$start = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('start')));
+						$end = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('end')));
+				?>
+					{
+						title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
+						start: '<?=$start?>',
+						end: '<?=$end?>',
+						url: '?page=room-request-staff&room=<?=$getRoom?>',
+
+					},
+					<?php
+						$no++;
+					}
+				}
+			?>
+		],
+	});
 
   });
 

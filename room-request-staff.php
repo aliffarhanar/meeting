@@ -217,7 +217,7 @@
 	</div>
 	<div class="col-md-12" style="overflow-y: scroll;">
 		<div class="col-md-5" style="background-color: white; padding: 10px;">
-			<div id="calendar"></div>
+			<div id="calendar-staff"></div>
 		</div>
 		<div class="col-md-7">
 			<h4 style="text-align:center;font-weight: 800;"><?=$getRoom?></h4>
@@ -319,7 +319,7 @@
 </div>
 <script>
 	$(document).ready(function() {
-		$('#calendar').fullCalendar({
+		$('#calendar-staff').fullCalendar({
 			header: {
 				left: 'prev month',
 				center: 'title',
