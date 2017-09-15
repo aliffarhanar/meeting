@@ -9,7 +9,6 @@
 <head>
 	<title>Meeting Room</title>
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-min.css">
 	<link rel="stylesheet" href="css/bootstrap-select.css">
 	<link rel="stylesheet" href="css/bootstrap-timepicker.css">
 	<link rel="stylesheet" href="css/style.css">

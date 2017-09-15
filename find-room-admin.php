@@ -185,7 +185,7 @@ function filter_sort(obj){
 			while($pics->has_next_entity()){
 				$pic = $pics->get_next_entity();
 				$listpic[$i]["name"] = $pic->get('name');
-				$listpic[$i]["phone"] = $pic->get('phone');
+				$listpic[$i]["phone"] = $pic->get('tel');
 				$listpic[$i]["room"] = $pic->get('pic');
 				$i++;
 			}
@@ -200,8 +200,8 @@ function filter_sort(obj){
 				$location = $ruangan->get('address');
 				$foto = $ruangan->get('foto');
 				for($j=0;$j<$i;$j++){
-					if(in_array($name,$listpic[$j]["room"])){
-						$roompic .="<li>".$listpic[$j]["name"]."</li>";
+					if(in_array($uuid,$listpic[$j]["room"])){
+						$roompic .="<li>".$listpic[$j]["name"]."(".$listpic[$j]["phone"].")</li>";
 					}
 				}
 				$roompic .="</ul>";
@@ -304,7 +304,7 @@ function filter_sort(obj){
 					  </a>
 					</div>
 					<div class="col-md-6">
-					  <button type="button" class="btn btn-primary modal-edit" data-toggle="modal" onclick="closeFunction()" pic="" room="roomid" data-target="#room-edit">Edit</button>
+					  <button type="button" class="btn btn-primary modal-edit" data-toggle="modal" class="close" data-dismiss="modal" pic="" room="roomid" data-target="#room-edit">Edit</button>
 					';
 				}
 			?>
@@ -339,7 +339,7 @@ function filter_sort(obj){
 
           </div><br>
           <!-- end section carousel -->
-          <div id="kalendar" style="background-color: white;"></div>
+          <div id="calendar-edit" style="background-color: white;"></div>
         </div>
         <div class="table-responsive col-md-6" style="overflow-y: scroll;">
           <style type="text/css" media="screen">
@@ -507,35 +507,91 @@ function filter_sort(obj){
   $(document).ready(function() {
 
     $('#calendar').fullCalendar({
-      header: {
-        left: 'prev',
-        center: 'title',
-        right: 'next',
-      },
-      defaultDate: '2017-05-12',
-      navLinks: true, // can click day/week names to navigate views
-      editable: true,
-      eventLimit: true, // allow "more" link when too many events
+		header: {
+			left: 'prev month',
+			center: 'title',
+			right: 'today next',
+		},
+		navLinks: true, // can click day/week names to navigate views
+		eventLimit: true, // allow "more" link when too many events
+		events: [
+		<?php
+				$no=1;
+				$data = array('ql' => "select * where approved='approved'");
+				$bookings = $client->get_collection('bookings',$data);
+				if($bookings->has_next_entity()){
+					//do something with the data
+					while ($bookings->has_next_entity()) {
+						$booking = $bookings->get_next_entity();
+						$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));
+						//reading data ruangan
+						$ruangans = $client->get_collection('ruangans',$data);
+						//do something with the data
+						$ruangan = $ruangans->get_next_entity();
+						$start = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('start')));
+						$end = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('end')));
+				?>
+					{
+						title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
+						start: '<?=$start?>',
+						end: '<?=$end?>',
+						url: '?page=room-request-staff&room=<?=@$getRoom?>',
 
+					},
+					<?php
+						$no++;
+					}
+				}
+			?>
+		],
     });
 
-  });
+    $('#calendar-edit').fullCalendar({
+     header: {
+			left: 'prev month',
+			center: 'title',
+			right: 'today next',
+		},
+		navLinks: true, // can click day/week names to navigate views
+		eventLimit: true, // allow "more" link when too many events
+		events: [
+		<?php
+				$no=1;
+				$data = array('ql' => "select * where approved='approved'");
+				$bookings = $client->get_collection('bookings',$data);
+				if($bookings->has_next_entity()){
+					//do something with the data
+					while ($bookings->has_next_entity()) {
+						$booking = $bookings->get_next_entity();
+						$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));
+						//reading data ruangan
+						$ruangans = $client->get_collection('ruangans',$data);
+						//do something with the data
+						$ruangan = $ruangans->get_next_entity();
+						$start = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('start')));
+						$end = date('Y-m-d', strtotime($booking->get('tanggal'))).'T'.date('H:i:s', strtotime($booking->get('end')));
+				?>
+					{
+						title: '<?=$ruangan->get('name')?> - <?=$booking->get('name') ?>',
+						start: '<?=$start?>',
+						end: '<?=$end?>',
+						url: '?page=room-request-staff&room=<?=@$getRoom?>',
 
-  $(document).ready(function() {
-
-    $('#kalendar').fullCalendar({
-      header: {
-        left: 'prev',
-        center: 'title',
-        right: 'next',
-      },
-      defaultDate: '2017-05-12',
-      navLinks: true, // can click day/week names to navigate views
-      editable: true,
-      eventLimit: true, // allow "more" link when too many events
-
+					},
+					<?php
+						$no++;
+					}
+				}
+			?>
+		],
     });
 
+	$('#detail-room').on('shown.bs.modal', function () {
+	   $("#calendar").fullCalendar('render');
+	});
+	$('#room-edit').on('shown.bs.modal', function () {
+	   $("#calendar-edit").fullCalendar('render');
+	});
   });
 
   function closeFunction(){
