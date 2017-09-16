@@ -545,7 +545,6 @@ function filter_sort(obj){
 			?>
 		],
     });
-
     $('#calendar-edit').fullCalendar({
      header: {
 			left: 'prev month',

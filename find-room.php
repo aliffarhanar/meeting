@@ -213,7 +213,7 @@ function filter_sort(obj){
 			  </div><br>
 			  <!-- end section carousel -->
 			  <div id="calendar-user" style="background-color: white;"></div>
-			  <script>
+			  <script> 
 			  $('#calendar-user').fullCalendar({
 					header: {
 						left: 'prev month',
