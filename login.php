@@ -155,7 +155,8 @@
 			</div>
 		  </div>
 		  <div class="form-group">
-			<div class="col-sm-offset-2 col-sm-9">
+			<div class="col-sm-offset-1 col-sm-10">
+			  <a href="#" data-toggle="modal" data-target="#forgot-password">Forgot Password ?</a>
 			  <button type="submit" name="login" class="btn btn-primary pull-right">Login</button>
 			  <a class="btn btn-default pull-right" style="margin-right:2%" data-toggle="modal" data-target="#staff-signup">Sign up</a>
 			</div>
@@ -267,4 +268,50 @@
     </div>
   </div>
 </div>
+<div id="forgot-password" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title">Forgot Password ?</h4>
+      </div>
+      <div class="modal-body">
+		<form class="form-horizontal" action="" method="post">
+		  <div class="form-group">
+			<label class="col-sm-5 frm-label">Your Username (for verification)<span class="pull-right">:</span></label>
+			<div class="col-sm-7">
+			  <input type="text" name="username" required class="form-control" placeholder="Username used for your account">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label class="col-sm-5 frm-label">Your Phone (for verification)<span class="pull-right">:</span></label>
+			<div class="col-sm-7">
+			  <input type="text" name="phone" required class="form-control" placeholder="Phone Number used for your account">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label class="col-sm-5 frm-label">Your Email (for verification)<span class="pull-right">:</span></label>
+			<div class="col-sm-7">
+			  <input type="email" name="email" required class="form-control" placeholder="Email used for your account">
+			</div>
+		  </div>		 
+		  <div class="form-group">
+			<label class="col-sm-5 frm-label">Your New Password <span class="pull-right">:</span></label>
+			<div class="col-sm-7">
+			  <input type="password" name="password" required class="form-control" placeholder="Password">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<div class="col-sm-12" style="margin-top:5%;text-align:center">
+			  <button type="submit" name="register" class="btn btn-primary">Change My Password</button>
+			</div>
+		  </div>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
 </html>

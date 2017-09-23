@@ -15,6 +15,7 @@ function filter_building(obj){
 		data: dataString,
 		cache: false,
 		success: function(html) {
+			alert(html);
 			document.getElementById("list_ruangan").innerHTML = html;			
 		}
 	});
@@ -133,7 +134,7 @@ function filter_sort(obj){
 	<?php
 		if(isset($_POST['editroom'])){
 			$body = array(
-				"capacity" => $_POST['capacity'],
+				"capacity" => (int)$_POST['capacity'],
 				"facility" => $_POST['facility'],
 				"address" => $_POST['location']
 			);

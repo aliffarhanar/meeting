@@ -81,7 +81,6 @@ if (isset($_POST['create-room'])) {
 									</div>
 								</div>
 							</div>";
-							var_dump($client);
 		header("location:index.php?page=find-room");
 	} elseif (!upload_foto($_POST['name'])) {
 		$_SESSION['notif'] = "<br>
