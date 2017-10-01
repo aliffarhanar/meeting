@@ -20,7 +20,7 @@ $client = new Apache\Usergrid\Client('https://api.nobackend.id','nobackend.meeti
   "email": "[email]",
   "activated": false,
   "activation_code": [generated activation code],
-  "approved": pending,
+  "approved": "pending",
   "role": "[roles yang dipilih]",
   "tel": "[nomor telepon]"
 }
