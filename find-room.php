@@ -137,7 +137,11 @@ function filter_sort(obj){
 					$pic = $pics->get_next_entity();
 					$listpic[$i]["name"] = $pic->get('name');
 					$listpic[$i]["phone"] = $pic->get('tel');
-					$listpic[$i]["room"] = $pic->get('pic');
+					if($pic->get('pic') != null){
+						$listpic[$i]["room"] = $pic->get('pic');
+					}else{
+						$listpic[$i]["room"] = array();
+					}
 					$i++;
 				}
 
@@ -150,6 +154,7 @@ function filter_sort(obj){
 					$facility = $ruangan->get('facility');
 					$location = $ruangan->get('address');
 					$foto = $ruangan->get('foto');
+					
 					for($j=0;$j<$i;$j++){
 						if(in_array($uuid,$listpic[$j]["room"])){
 							$roompic .="<li>".$listpic[$j]["name"]."(".$listpic[$j]["phone"].")</li>";

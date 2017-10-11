@@ -108,18 +108,20 @@
 								$data_r = array("ql" => "select * where uuid = '".$book->get('ruangan')."'");
 									//reading data ruangan
 								$ruangans = $client->get_collection('ruangans',$data_r);
-								$ruangan = $ruangans->get_next_entity();
-								if(in_array(@$ruangan->get('uuid'), $_SESSION['pic']) OR $_SESSION['role'] == "admin"){
-									$notif_booking .= '
-										<li>
-											<a href="?page=room-request-staff">
-												<span class="glyphicon glyphicon-calendar" style="color: grey;"></span>
-												&nbsp;'.$book->get('name').' meminta booking ruangan.
-											</a>
-										</li>
-										<li role="separator" class="divider"></li>
-									';
-									$jum++;
+								if($ruangans->has_next_entity()){
+									$ruangan = $ruangans->get_next_entity();
+									if(in_array(@$ruangan->get('uuid'), $_SESSION['pic']) OR $_SESSION['role'] == "admin"){
+										$notif_booking .= '
+											<li>
+												<a href="?page=room-request-staff">
+													<span class="glyphicon glyphicon-calendar" style="color: grey;"></span>
+													&nbsp;'.$book->get('name').' meminta booking ruangan.
+												</a>
+											</li>
+											<li role="separator" class="divider"></li>
+										';
+										$jum++;
+									}
 								}
 							}
 						}
