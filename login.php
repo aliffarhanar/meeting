@@ -43,7 +43,12 @@
 							$_SESSION['email'] = $user->get('email');
 							$_SESSION['pic'] = $user->get('pic');
 							$_SESSION['token'] = $token;
-							header("location:index.php");
+							if($user->get('role') == "admin"){
+								$location = "index.php?page=manage-room";
+							}else{
+								$location = "index.php?page=find-room";
+							}
+							header("location:".$location);
 						}
 					}else{
 						echo "<br>
