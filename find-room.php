@@ -150,7 +150,6 @@ function filter_sort(obj){
 					$facility = $ruangan->get('facility');
 					$location = $ruangan->get('address');
 					$foto = $ruangan->get('foto');
-					
 					for($j=0;$j<$i;$j++){
 						if(in_array($uuid,$listpic[$j]["room"])){
 							$roompic .="<li>".$listpic[$j]["name"]."(".$listpic[$j]["phone"].")</li>";
