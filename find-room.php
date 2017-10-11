@@ -137,11 +137,7 @@ function filter_sort(obj){
 					$pic = $pics->get_next_entity();
 					$listpic[$i]["name"] = $pic->get('name');
 					$listpic[$i]["phone"] = $pic->get('tel');
-					if($pic->get('pic') != null){
-						$listpic[$i]["room"] = $pic->get('pic');
-					}else{
-						$listpic[$i]["room"] = array();
-					}
+					$listpic[$i]["room"] = $pic->get('pic');
 					$i++;
 				}
 
