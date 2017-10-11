@@ -43,7 +43,7 @@
 							$_SESSION['email'] = $user->get('email');
 							$_SESSION['pic'] = $user->get('pic');
 							$_SESSION['token'] = $token;
-							if($user->get('role') == "admin"){
+							if($_SESSION['role'] == "admin"){
 								$location = "index.php?page=manage-room";
 							}else{
 								$location = "index.php?page=find-room";
