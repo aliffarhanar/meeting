@@ -41,7 +41,7 @@
 					while($pics->has_next_entity()){
 						$pic = $pics->get_next_entity();
 						if(in_array($ruangan->get('uuid'),$pic->get('pic'))){
-							message_helio(login_helio()["data"]["token"],$pic->get('email'),$subject,$body);
+							// message_helio(login_helio()["data"]["token"],$pic->get('email'),$subject,$body);
 						}
 						$listpic .= $pic->get('name').",";
 					}
