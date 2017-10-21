@@ -140,7 +140,7 @@ function filter_sort(obj){
 					$listpic[$i]["room"] = $pic->get('pic');
 					$i++;
 				}
-
+				$jum = 0;
 				while ($ruangans->has_next_entity()) {				
 					$roompic = "<ul>";
 					$ruangan = $ruangans->get_next_entity();
@@ -150,39 +150,77 @@ function filter_sort(obj){
 					$facility = $ruangan->get('facility');
 					$location = $ruangan->get('address');
 					$foto = $ruangan->get('foto');
-					for($j=0;$j<$i;$j++){
-						if(in_array($uuid,$listpic[$j]["room"])){
-							$roompic .="<li>".$listpic[$j]["name"]."(".$listpic[$j]["phone"].")</li>";
+					if($_SESSION['role'] == "staff" AND in_array($uuid,$_SESSION['pic'])){
+						for($j=0;$j<$i;$j++){
+							if(in_array($uuid,$listpic[$j]["room"])){
+								$roompic .="<li>".$listpic[$j]["name"]."(".$listpic[$j]["phone"].")</li>";
+							}
 						}
-					}
-					$roompic .="</ul>";
-				?>
-					  <!-- box find room -->
-					  <div class="col-sm-3">
-						<div class="border-box panel panel-info">
-						  <div class="panel-body text-center" style="background: rgba(255, 255, 255, 0.5);">
-							<img src="parse_image.php?image=<?php echo $name;?>" class="img-responsive pull-center" style="width: 100%;height:150px;" alt="Image">
-							<br><?php echo $name;?><br>
-							<span class="glyphicon glyphicon-star"></span>
-							<span class="glyphicon glyphicon-star"></span>
-							<span class="glyphicon glyphicon-star"></span>
-							<span class="glyphicon glyphicon-star"></span>
-							<span class="glyphicon glyphicon-star-empty"></span>
-							<br><span class="glyphicons glyphicons-group" style="color: black;"><?php echo $capacity;?> person</span>
-							<br><span class="glyphicons glyphicons" style="color: black;"><?php echo strlen($facility)>30?mb_substr($facility,0,27)."...":$facility ;?></span>
-							<br><br>
-							<a class="btn btn-primary pull-center modal-detail" pic="<?php echo $roompic;?>" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|"."parse_image.php?image=".urlencode($name); ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
-							<?php if ($_SESSION['role'] == "admin") { ?>
-								<a href="create-room-admin.php?delete=<?php echo $name;?>"" class="btn btn-primary pull-center">Delete</a>
-							<?php }  ?>
+						$roompic .="</ul>";
+					?>
+						  <!-- box find room -->
+						  <div class="col-sm-3">
+							<div class="border-box panel panel-info">
+							  <div class="panel-body text-center" style="background: rgba(255, 255, 255, 0.5);">
+								<img src="parse_image.php?image=<?php echo $name;?>" class="img-responsive pull-center" style="width: 100%;height:150px;" alt="Image">
+								<br><?php echo $name;?><br>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star-empty"></span>
+								<br><span class="glyphicons glyphicons-group" style="color: black;"><?php echo $capacity;?> person</span>
+								<br><span class="glyphicons glyphicons" style="color: black;"><?php echo strlen($facility)>30?mb_substr($facility,0,27)."...":$facility ;?></span>
+								<br><br>
+								<a class="btn btn-primary pull-center modal-detail" pic="<?php echo $roompic;?>" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|"."parse_image.php?image=".urlencode($name); ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
+								<?php if ($_SESSION['role'] == "admin") { ?>
+									<a href="create-room-admin.php?delete=<?php echo $name;?>"" class="btn btn-primary pull-center">Delete</a>
+								<?php }  ?>
+							  </div>
+							</div>
 						  </div>
-						</div>
-					  </div>
-					  <!-- box find room -->
-				<?php
+						  <!-- box find room -->
+					<?php
+						$jum++;
+					}else if($_SESSION['role'] == "user"){
+						for($j=0;$j<$i;$j++){
+							if(in_array($uuid,$listpic[$j]["room"])){
+								$roompic .="<li>".$listpic[$j]["name"]."(".$listpic[$j]["phone"].")</li>";
+							}
+						}
+						$roompic .="</ul>";
+					?>
+						  <!-- box find room -->
+						  <div class="col-sm-3">
+							<div class="border-box panel panel-info">
+							  <div class="panel-body text-center" style="background: rgba(255, 255, 255, 0.5);">
+								<img src="parse_image.php?image=<?php echo $name;?>" class="img-responsive pull-center" style="width: 100%;height:150px;" alt="Image">
+								<br><?php echo $name;?><br>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star-empty"></span>
+								<br><span class="glyphicons glyphicons-group" style="color: black;"><?php echo $capacity;?> person</span>
+								<br><span class="glyphicons glyphicons" style="color: black;"><?php echo strlen($facility)>30?mb_substr($facility,0,27)."...":$facility ;?></span>
+								<br><br>
+								<a class="btn btn-primary pull-center modal-detail" pic="<?php echo $roompic;?>" room="<?php echo $name."|".$capacity."|".$facility."|".$location."|"."parse_image.php?image=".urlencode($name); ?>" data-toggle="modal" data-target="#detail-room">Detail</a>
+								<?php if ($_SESSION['role'] == "admin") { ?>
+									<a href="create-room-admin.php?delete=<?php echo $name;?>"" class="btn btn-primary pull-center">Delete</a>
+								<?php }  ?>
+							  </div>
+							</div>
+						  </div>
+						  <!-- box find room -->
+					<?php
+						$jum++;
+					}
 				}
 			}else{
-				echo "Tidak ada ruangan yang ditemukan";
+				echo "Tidak ada ruangan yang tersedia";
+			}
+			if($jum == 0 ){
+				echo "Tidak ada ruangan yang ditemukan untuk anda";
 			}
 		?>
 	</div>
@@ -288,11 +326,12 @@ function filter_sort(obj){
 		  <div class="modal-footer">
 			<div class="col-md-6">
 				<?php
-					if($_SESSION['role'] == "user"){
+					if($_SESSION['role'] == "user" OR $_SESSION['role'] == "staff"){
 						echo '
 							<a href="#" type="button" class="btn btn-primary modal-book">book</a>
 						';
-					}else if($_SESSION['role'] == "admin" OR $_SESSION['role'] == "staff"){
+					}
+					if($_SESSION['role'] == "admin" OR $_SESSION['role'] == "staff"){
 						echo '
 						  <a href="?page=room-request-staff" type="button" class="btn btn-primary modal-manage" >manage
 							<span class="badge" style="top: -10px; position: absolute; background-color: #C91F2C; color: white;"></span>

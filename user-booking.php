@@ -24,6 +24,30 @@
 				$food = $_POST['food'];
 				$note = $_POST['note'];
 				$user = $_SESSION['name'];
+				
+				if(in_array($ruangan->get('uuid'),$_SESSION['pic'])){
+					$message = "Selamat, pemesanan ruangan telah dilakukan, status pemesanan approved karena anda sebagai PIC ruangan ini.";
+					$approved = "approved";
+				}else{
+					$approved = "pending";
+					//KIRIM EMAIL
+					include_once "inc/functions.php";
+					$subject = "Permintaan booking ruangan";
+					$body = "Hello, ".$_SESSION['name'].". ingin melakukan pemesanan untuk ruangan ".$ruangan->get('name')." pada tanggal ".$tanggal." pukul $start-$end. <br /> ";
+					//AMBIL DATA PIC UNTUK RUANGAN INI
+					$data_pic = array("ql" => "select * where role ='staff'");
+					$pics = $client->get_collection('users', $data_pic);
+					$listpic = "";
+					while($pics->has_next_entity()){
+						$pic = $pics->get_next_entity();
+						if(in_array($ruangan->get('uuid'),$pic->get('pic'))){
+							message_helio(login_helio()["data"]["token"],$pic->get('email'),$subject,$body);
+						}
+						$listpic .= $pic->get('name').",";
+					}
+					$message = "Selamat, pemesanan ruangan telah dilakukan, status pemesanan menunggu konfirmasi Dari PIC/Pengelola ruangan <br>(".$listpic.").";
+				}
+				
 				$body = array(
 					"name" => $name,
 					"topic" => $topic,
@@ -35,7 +59,7 @@
 					"food" =>$food,
 					"note" => $note,
 					"ruangan" => $ruangan->get('uuid'),
-					"approved" => "pending",
+					"approved" => $approved,
 					"user" => $user,
 				);
 				$success = false;
@@ -57,7 +81,7 @@
 					<div class='row'>
 						<div class='col-md-8 col-md-offset-2'>
 							<div class='alert alert-success' style='text-align:center;'>
-								<h4>Selamat, pemesanan ruangan telah dilakukan, status pemesanan menunggu konfirmasi Dari PIC/Pengelola ruangan. Terima Kasih</h4>
+								<h4>$message</h4>
 							</div>
 						</div>
 					</div>

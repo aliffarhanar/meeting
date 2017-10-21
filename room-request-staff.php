@@ -101,24 +101,26 @@
 							$data = array('ql' => "select * where uuid=".$booking->get('ruangan'));
 							//reading data ruangan
 							$ruangans = $client->get_collection('ruangans', $data);
-							//do something with the data
-							$ruangan = $ruangans->get_next_entity();
-							if(in_array(@$ruangan->get('uuid'), $_SESSION['pic']) OR $_SESSION['role'] == "admin"){
-								$no = $no+1;
-						?>
-								<tr>
-									<td><?=$no?></td>
-									<td><?=$ruangan->get('name')?></td>
-									<td><?=$booking->get('tanggal')?></td>
-									<td><?=$booking->get('start').' - '.$booking->get('end')?></td>
-									<td><?=$booking->get('name')?></td>
-									<td>
-										<a href="?page=room-request-staff&reject=<?=$booking->get('name')?>" class="btn btn-sm btn-danger" ><i class="fa fa-close" aria-hidden="true"></i></a>
-										<a href="?page=room-request-staff&approve=<?=$booking->get('name')?>" class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
-									</td>
-								</tr>
-						<?php
-								$no++;
+							if($ruangans->has_next_entity()){
+								//do something with the data
+								$ruangan = $ruangans->get_next_entity();
+								if(in_array(@$ruangan->get('uuid'), $_SESSION['pic']) OR $_SESSION['role'] == "admin"){
+									$no = $no+1;
+							?>
+									<tr>
+										<td><?=$no?></td>
+										<td><?=$ruangan->get('name')?></td>
+										<td><?=$booking->get('tanggal')?></td>
+										<td><?=$booking->get('start').' - '.$booking->get('end')?></td>
+										<td><?=$booking->get('name')?></td>
+										<td>
+											<a href="?page=room-request-staff&reject=<?=$booking->get('name')?>" class="btn btn-sm btn-danger" ><i class="fa fa-close" aria-hidden="true"></i></a>
+											<a href="?page=room-request-staff&approve=<?=$booking->get('name')?>" class="btn btn-sm btn-success" ><i class="fa fa-check" aria-hidden="true"></i></a>
+										</td>
+									</tr>
+							<?php
+									$no++;
+								}
 							}
 						}
 					}
