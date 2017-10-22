@@ -40,3 +40,14 @@ $client = new Apache\Usergrid\Client('https://api.nobackend.id','nobackend.meeti
 ```php
 $client-]login([username], [password])
 ```
+
+## GET STARTED / BEST PRACTICE
+1. Untuk dokumentasi lengkap mengenai fitur yang tersedia anda bisa kunjungi link dibawah :
+```
+	https://nobackend.id/docs/#introduction/create-account
+```
+
+2. Untuk dokumentasi lengkap mengenai SDK dalam berbagai bahasa anda bisa kunjungi link dibawah :
+```
+	https://github.com/apache/usergrid/tree/master/sdks
+```
