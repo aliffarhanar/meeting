@@ -132,7 +132,8 @@ function filter_sort(obj){
 				$i=0;
 				$data_pic = array("ql" => "select * where role ='staff'");
 				$pics = $client->get_collection('users', $data_pic);
-				//do something with the data
+				
+				//MENGAMBIL SEMUA DATA PIC RUANGAN
 				while($pics->has_next_entity()){
 					$pic = $pics->get_next_entity();
 					$listpic[$i]["name"] = $pic->get('name');
@@ -141,6 +142,7 @@ function filter_sort(obj){
 					$i++;
 				}
 				$jum = 0;
+				//MENGAMBIL SEMUA DATA RUANGAN
 				while ($ruangans->has_next_entity()) {				
 					$roompic = "<ul>";
 					$ruangan = $ruangans->get_next_entity();
@@ -150,6 +152,8 @@ function filter_sort(obj){
 					$facility = $ruangan->get('facility');
 					$location = $ruangan->get('address');
 					$foto = $ruangan->get('foto');
+					
+					//jika role staff, maka hanya menampilkan ruangan yang dia PIC kan saja
 					if($_SESSION['role'] == "staff" AND in_array($uuid,$_SESSION['pic'])){
 						for($j=0;$j<$i;$j++){
 							if(in_array($uuid,$listpic[$j]["room"])){
@@ -216,10 +220,10 @@ function filter_sort(obj){
 						$jum++;
 					}
 				}
-			}else{
+			}else{	//jika tidak ada ruangan yang ditemukan
 				echo "Tidak ada ruangan yang tersedia";
 			}
-			if($jum == 0 ){
+			if($jum == 0 ){	//jika tidak ada ruangan yang sesuai dengan role
 				echo "Tidak ada ruangan yang ditemukan untuk anda";
 			}
 		?>

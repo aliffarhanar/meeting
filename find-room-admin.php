@@ -181,7 +181,8 @@ function filter_sort(obj){
 			$i=0;
 			$data_pic = array("ql" => "select * where role ='staff'");
 			$pics = $client->get_collection('users', $data_pic);
-			//do something with the data
+			
+			//MENGAMBIL SEMUA DATA PIC RUANGAN
 			while($pics->has_next_entity()){
 				$pic = $pics->get_next_entity();
 				$listpic[$i]["name"] = $pic->get('name');
@@ -190,6 +191,7 @@ function filter_sort(obj){
 				$i++;
 			}
 
+			//MENGAMBIL SEMUA DATA RUANGAN
 			while ($ruangans->has_next_entity()) {				
 				$roompic = "<ul>";
 				$ruangan = $ruangans->get_next_entity();
@@ -230,7 +232,7 @@ function filter_sort(obj){
 				  <!-- box find room -->
 			<?php
 			}
-		}else{
+		}else{	//jika tidak ada ruangan yang ditemukan
 			echo "Tidak ada ruangan yang ditemukan";
 		}
 	?>

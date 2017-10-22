@@ -21,9 +21,11 @@
 			<img src="images/logo-title.png" width="200px">
 		</div>
 		<?php
+			//SAAT BUTTON LOGIN DI TEKAN, MAKA BLOCK CONDITIONAL SCRIPT INI DIJALANKAN
 			if(isset($_POST['login'])){
-					if ($user = $client->login($_POST['username'], $_POST['password'])) {
-						$token = $client->get_oauth_token();
+					//MENGECEK APAKAH USERNAME DAN PASSWORD YANG DIMASUKAN ITU VALID ATAU TIDAK MELALUI FUNCTION LOGIN DARI OBJECT $client
+					if ($user = $client->login($_POST['username'], $_POST['password'])) {	//JIKA LOGIN BERHASIL
+						$token = $client->get_oauth_token();	// MENYIMPAN OAUTH TOKEN DAIR HASIL LOGIN
 					if (!$user->get('approved')) {
 							echo "<br>
 							<div class='row'>
@@ -50,7 +52,7 @@
 							}
 							header("location:".$location);
 						}
-					}else{
+					}else{	//JIKA LOGIN GAGAL
 						echo "<br>
 							<div class='row'>
 								<div class='col-md-8 col-md-offset-2'>
@@ -62,7 +64,7 @@
 					}
 				}
 
-
+			//SAAT BUTTON signup DI TEKAN DAN FORM SELESAI DIISI, MAKA BLOCK CONDITIONAL SCRIPT INI DIJALANKAN
 			if(isset($_POST['register'])){
 				$id = $_POST['username'];
 				$password = $_POST['password'];
@@ -71,6 +73,7 @@
 				$role = $_POST['role'];
 				$email = $_POST['email'];
 
+				//MENGECEK JIKA DAFTAR SEBAGAI USER, MAKA GENERATE CODE UNIK UNTUK VERIFIKASI EMAIL
 				if ($role=='user') {
 					$generate = strtotime(date("Ymdhis"));
 				} else {
@@ -93,7 +96,7 @@
 						"tel" => $phone,
 						"approved" => false,
 						"role" => $role,
-						"pic" => array(),
+						"pic" => array(), //JIKA STAFF, DITAMBAH PROPERTIES PIC UNTUK RUANGAN
 						"activation_code" => $generate,
 					);
 				}else{

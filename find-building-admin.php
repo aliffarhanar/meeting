@@ -9,6 +9,7 @@
 	<?php if (isset($_SESSION['notif'])) echo $_SESSION['notif'];unset($_SESSION['notif']);?>
 	<div class="col-md-12" style="padding-top:2%;" id="list_gedung">
 		<?php
+			//UNTUK MENAMPILKAN FORM UNTUK EDIT DATA GEDUNG
 			if(isset($_GET['edit'])){
 				$gedungs = $client->get_collection('gedungs/'.$_GET['edit']);
 				$gedung = $gedungs->get_next_entity();
@@ -36,6 +37,7 @@
 				</table>
 		<?php
 			}
+			//BLOCK SCRIPT UNTUK EDIT DATA PROPERTIES DARI GEDUNG
 			if(isset($_POST['editgedung'])){
 				$body = array(
 					"address" => $_POST['address']
@@ -68,6 +70,7 @@
 				}
 
 			}
+			//BLOCK SCRIPT UNTUK delete DATA PROPERTIES DARI GEDUNG
 			if(isset($_GET['delete'])){
 				$endpoint = 'gedungs/'.$_GET['delete'];
 				$query_string = array();
@@ -114,6 +117,7 @@
 					</thead>
 					<tbody>
 				<?php
+				//MENAMPILKAN SELURUH DATA GEDUNG
 				while ($gedungs->has_next_entity()) {				
 					$gedung = $gedungs->get_next_entity();
 					$name = $gedung->get('name');

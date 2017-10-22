@@ -17,6 +17,7 @@
 	</div>
 	<div class="col-md-12" style="padding-top:2%;">
 		<?php
+			//MENGHAPUS DATA BOOKING YANG DIPILIH
 			if(isset($_GET['delete-book'])){
 				$endpoint = 'bookings/'.$_GET['delete-book'];
 				$query_string = array();
@@ -64,6 +65,7 @@
 				</thead>
 				<tbody>
 					<?php
+					//menamgil history booking ruangan
 						$no=1;
 						$data = array('ql' => "select * where user='".$_SESSION['name']."'");		
 						$bookings = $client->get_collection('bookings',$data);

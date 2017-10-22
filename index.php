@@ -78,8 +78,10 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 						<?php
+						//MENGECEK DATA BOOKING PENJDING DAN PENDAFTARAN PENDING UNTUK NOTIFIKASI DIMENU ATAS
 						$jum = 0;
 						$notif_booking = "";
+						//NOTIFIKASI BOOKING PENDING HANYA JIKA ROLE LOGIN SEBAGAI ADMIN
 						if ($_SESSION['role'] == "admin") {
 							$notif_user = "";
 							$data = array("ql" => "select * where approved = false");
@@ -99,6 +101,7 @@
 								$jum++;
 							}
 						}
+						//NOTIFIKASI BOOKING PENDING HANYA JIKA ROLE LOGIN SEBAGAI STAFF/ADMIN
 						if ($_SESSION['role'] == "admin" OR $_SESSION['role'] == "staff") {
 							$data = array("ql" => "select * where approved = 'pending'");
 								//reading data ruangan
@@ -132,6 +135,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<?php
+						//menampilkan dropdown notifikasi yang tadi dibuat
 							echo $_SESSION['role'] == "staff"?$notif_booking:'';
 							echo $_SESSION['role'] == "admin"?$notif_booking:'';
 							echo $_SESSION['role'] == "admin"?$notif_user:'';
@@ -153,6 +157,7 @@
 		<div class="col-sm-2 col-md-2 sidebar-offcanvas" style=" background-color: rgba(255, 255, 255, 0.5); height: 100%;padding-right: 0;" id="sidebar-wrapper" role="navigation">
 			<ul class="nav nav-sidebar list-sidebar-menu">
 				<?php
+				//FILTER MENU YANG DITAMPILKAN JIKA STATUS USER,STAFF ATAU ADMIN
 					if($_SESSION['role'] == "admin"){
 						$page = "room-request-staff";
 				?>

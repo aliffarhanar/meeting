@@ -4,6 +4,7 @@
 	</div>
 	<div class="col-md-12" style="border-top : 2px solusername grey;padding-top:2%">
 		<?php
+			//block script untuk edit data profile user
 			if(isset($_POST['edit'])){
 				$username = $_POST['username'];
 				$newpassword = $_POST['newpassword'];

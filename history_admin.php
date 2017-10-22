@@ -35,6 +35,7 @@
 				</thead>
 				<tbody>
 					<?php
+					//menamgil history booking ruangan
 						$no=1;
 						if(isset($_GET['cari'])){
 							$data = array("ql" => "select * where name ='".$_GET['cari']."'");
