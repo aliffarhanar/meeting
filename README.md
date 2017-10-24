@@ -1,6 +1,7 @@
 # Meeting Room App by Nobackend
 
-# GET STARTED / BEST PRACTICE
+# A. GET STARTED / BEST PRACTICE
+### Sebelum memulai pembuatan aplikasi, lebih baik pahami dan mengerti dokumentasi dari nobakend dan SDK yang dipakai :
 1. Untuk dokumentasi lengkap mengenai fitur yang tersedia anda bisa kunjungi link dibawah :
 ```
 	https://nobackend.id/docs/#introduction/create-account
@@ -12,13 +13,41 @@
 ```
 
 ## NOBACKEND DEVELOPER SETUP
-Sebelum berlanjut pada pembuatan aplikasi ada yang perlu kita atur di portal developer aplikasi di nobackend, yaitu :
-1. ROLES : Terdata 3 roles disini, yaitu User, Staff dan Admin.
+### Sebelum berlanjut pada pembuatan aplikasi ada yang perlu kita atur di portal developer aplikasi di nobackend, yaitu :
+1. ROLES : Terdapat 3 roles disini, yaitu User, Staff dan Admin. Berikut permissions dari setiap roles.
+User Permission :
+
+| Path   	|  GET  | POST  |  PUT  | DELETE |
+| -------------	|:-----:|:-----:|:-----:|:------:|
+| /bookings/*   |  yes  |  yes  |  yes  |  yes   |
+| /users   	|  yes  |  yes  |  yes  |  no    |
+| /gedugns   	|  yes  |  no   |  no   |  no    |
+| /ruangans   	|  yes  |  no   |  no   |  no    |
+| /ruangans/*   |  yes  |  no   |  no   |  no    |
+| /users   	|  no   |  no   |  yes  |  no    |
+
+Staff Permission :
+
+| Path   	|  GET  | POST  |  PUT  | DELETE |
+| -------------	|:-----:|:-----:|:-----:|:------:|
+| /bookings/*   |  yes  |  yes  |  yes  |  yes   |
+| /users   	|  yes  |  yes  |  yes  |  no    |
+| /ruangans   	|  yes  |  no   |  yes  |  no    |
+| /gedugns   	|  yes  |  no   |  no   |  no    |
+| /ruangans/*   |  yes  |  no   |  no   |  no    |
+| /users   	|  no   |  no   |  yes  |  no    |
+
+Admin Permission :
+
+| Path   	|  GET  | POST  |  PUT  | DELETE |
+| -------------	|:-----:|:-----:|:-----:|:------:|
+| /**   	|  yes  |  yes  |  yes  |  yes   |
+
 2. COLLECTION : Terdapat 3 collections tambahan untuk menyimpan data kita nanti, yaitu gedung, ruangan dan booking.
 
 
 
-# CREATING APPLICATION
+# B. CREATING APPLICATION
 ## STEP 1 : Inisialisasi dan konfigurasi awal
 1. Import PHP SDK Nobackend ke direktori project anda
 2. Pada file 'config' anda tambahkan script berikut untuk membuat objek client dari nobackend
