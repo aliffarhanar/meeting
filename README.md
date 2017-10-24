@@ -1,5 +1,24 @@
 # Meeting Room App by Nobackend
 
+# GET STARTED / BEST PRACTICE
+1. Untuk dokumentasi lengkap mengenai fitur yang tersedia anda bisa kunjungi link dibawah :
+```
+	https://nobackend.id/docs/#introduction/create-account
+```
+
+2. Untuk dokumentasi lengkap mengenai SDK dalam berbagai bahasa anda bisa kunjungi link dibawah :
+```
+	https://github.com/apache/usergrid/tree/master/sdks
+```
+
+## NOBACKEND DEVELOPER SETUP
+Sebelum berlanjut pada pembuatan aplikasi ada yang perlu kita atur di portal developer aplikasi di nobackend, yaitu :
+1. ROLES : Terdata 3 roles disini, yaitu User, Staff dan Admin.
+2. COLLECTION : Terdapat 3 collections tambahan untuk menyimpan data kita nanti, yaitu gedung, ruangan dan booking.
+
+
+
+# CREATING APPLICATION
 ## STEP 1 : Inisialisasi dan konfigurasi awal
 1. Import PHP SDK Nobackend ke direktori project anda
 2. Pada file 'config' anda tambahkan script berikut untuk membuat objek client dari nobackend
@@ -41,13 +60,8 @@ $client = new Apache\Usergrid\Client('https://api.nobackend.id','nobackend.meeti
 $client-]login([username], [password])
 ```
 
-## GET STARTED / BEST PRACTICE
-1. Untuk dokumentasi lengkap mengenai fitur yang tersedia anda bisa kunjungi link dibawah :
-```
-	https://nobackend.id/docs/#introduction/create-account
-```
-
-2. Untuk dokumentasi lengkap mengenai SDK dalam berbagai bahasa anda bisa kunjungi link dibawah :
-```
-	https://github.com/apache/usergrid/tree/master/sdks
-```
+## STEP 4 : Menampilkan ruangan yang tersedia
+Hak Akses ruangan berdasarkan ROLE :
+1. User : Hanya dapat GET/READ data ruangan
+2. Staff : GET dan PUT data ruangan yang dia sebagai PIC nya 
+3. Admin : 
