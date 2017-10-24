@@ -90,7 +90,39 @@ $client-]login([username], [password])
 ```
 
 ## STEP 4 : Menampilkan ruangan yang tersedia
-Hak Akses ruangan berdasarkan ROLE :
-1. User : Hanya dapat GET/READ data ruangan
-2. Staff : GET dan PUT data ruangan yang dia sebagai PIC nya 
-3. Admin : 
+### 1. Alur Logika sesuai roles
+Untuk menampilkan ruangan, ada 3 kondisi untuk alur logika nya, yaitu : 
+```
+User :
+'GET data ruangan dan PIC -> Tampilkan semua ruangan'
+```
+
+```
+Staff :
+'GET data ruangan dan PIC -> Pilih ruangan yang di PIC kan oleh staff tersebut -> Tampilkan semua ruangan yang sesuai'
+```
+
+```
+Admin :
+'GET data ruangan dan PIC -> Tampilkan semua ruangan'
+```
+
+Script PHP sederhananya seperti berikut :
+```php
+	$data = array("ql" => "");
+	$ruangans = $client->get_collection('ruangans',$data);
+	while ($ruangans->has_next_entity()) {
+		//jika role staff, maka hanya menampilkan ruangan yang dia PIC kan saja
+		if($_SESSION['role'] == "staff" AND in_array($uuid,$_SESSION['pic'])){
+			$show = true;
+		}else{
+			$show = false;
+		}
+		if($show){
+			DI ISI DENGAN PERINTAH UNTUK MENAMPILKAN DATA RUANGAN
+		}
+	}
+```
+
+##STEP 5 : Booking Ruangan
+Untuk booking ruangan
